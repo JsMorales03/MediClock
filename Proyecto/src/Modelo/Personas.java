@@ -2,7 +2,7 @@
 package Modelo;
 
 
-public class Persona {
+public class Personas {
     private String nom;
     private String prueba2;
 }
