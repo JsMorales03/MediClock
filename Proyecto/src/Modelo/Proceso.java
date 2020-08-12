@@ -142,6 +142,30 @@ public class Proceso {
             }
         }
     }
+    public void listarMedicamentos(Personas obj_persona)
+    {
+        if(!obj_persona.getLista_medicamentos().isEmpty())
+        inOut.mostrarResultado(obj_persona.toString());
+        else
+        inOut.mostrarResultado("No hay ningun medicamento registrado");
+    }
+
+    
+    public boolean validarExistenciaMedicamento(ArrayList<Medicamentos> lista_medicamentos,String nombre_medicamento)
+    {
+        if(!lista_medicamentos.isEmpty())
+        {
+          for(Medicamentos medicamento:lista_medicamentos)
+            {
+            if(medicamento.getNombre_medicamento().equalsIgnoreCase(nombre_medicamento))
+                   return true;
+            }
+        }
+        return false;
+    }
+}
+
+    
    /* public boolean validarFormato(String horario)
     {
         char[] hora = new char[5];
@@ -152,25 +176,5 @@ public class Proceso {
         
         return true;
     }*/
-    public void listarMedicamentos(Personas obj_persona)
-    {
-        if(!obj_persona.getLista_medicamentos().isEmpty())
-        inOut.mostrarResultado(obj_persona.toString());
-        else
-        inOut.mostrarResultado("No hay ningun medicamento registrado");
-    }
-    
-    public boolean validarExistenciaMedicamento(ArrayList<Medicamentos> lista_medicamentos,String nombre_medicamento)
-    {
-        if(!lista_medicamentos.isEmpty())
-        {
-          for(Medicamentos medicamento:lista_medicamentos)
-            {
-            if(medicamento.getNombre_medicamento().equalsIgnoreCase(nombre_medicamento))
-                   return true;
-            }   
-        }
-        return false;
-    }
+  
 
-}
