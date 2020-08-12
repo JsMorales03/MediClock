@@ -9,7 +9,9 @@ public class Main {
      static Proceso gestion = new Proceso();
      static InOut ioData = new InOut();
     public static void main(String[] args) {
-
+           Personas obj_persona = new Personas();
+           obj_persona.setNombre_persona("Paula");
+           menuMedicamentos(obj_persona);
     }
     public static void menuMedicamentos(Personas obj_persona)
     {

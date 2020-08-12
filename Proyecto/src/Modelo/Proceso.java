@@ -107,6 +107,10 @@ public class Proceso {
                     obj_horario.setDia(seleccionarDias(opcion));
                 }
                 obj_horario.setHora(inOut.solicitarNombre("Digite la hora en formato de 24h\nEjemplo: 14:30"));
+                while(!validarFormato(obj_horario.getHora()))
+                {
+                 obj_horario.setHora(inOut.solicitarNombre("FORMATO INCORRECTO\nDigite la hora en formato de 24h\nEjemplo: 14:30"));
+                }
                obj_horario.setDosis(inOut.solicitarDoubles("Digite cuantos "+obj_medicamento.getUnidad_medida()+ " ingiere el "+obj_horario.getDia()));
                obj_medicamento.setHorario(obj_horario);
             }
@@ -163,18 +167,32 @@ public class Proceso {
         }
         return false;
     }
+    public boolean validarFormato(String horario)
+    {
+        int horas;
+        int minutos;
+        try
+        {
+            horas= Integer.parseInt((horario.charAt(0)+horario.charAt(1)));
+            minutos = Integer.parseInt((horario.charAt(3)+horario.charAt(4)));    
+        }
+        catch(NumberFormatException ex)
+        {
+            return false; //si alguno no es un número retorna falso
+        }
+        if(horas>24||horas<=0||minutos>60||minutos<0)
+        {
+            return false;
+        }
+        if(horario.charAt(2)!=':')
+        {
+            return false;
+        }
+        return true;
+    }
+  
 }
 
     
-   /* public boolean validarFormato(String horario)
-    {
-        char[] hora = new char[5];
-        hora = horario.toCharArray(); //hora a validar
-        if(hora[0])
-        char numeros[] = new char[2];
-        
-        
-        return true;
-    }*/
-  
+
 
