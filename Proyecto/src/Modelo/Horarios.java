@@ -3,9 +3,9 @@ package Modelo;
 
 
 public class Horarios {
-    String dia;
-    String hora;
-    Double dosis;
+    private String dia;
+    private String hora;
+    private Double dosis;
     public Horarios() {
     }
 

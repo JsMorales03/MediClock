@@ -8,7 +8,7 @@ public class Personas {
     private String nombre_persona;
     private String usuario;
     private String contrasena;
-    ArrayList<Medicamentos> lista_medicamentos = new ArrayList<>();
+    private ArrayList<Medicamentos> lista_medicamentos = new ArrayList<>();
     public Personas()
     {
         
@@ -40,7 +40,7 @@ public class Personas {
     public void setNombre_persona(String nombre_persona) {
         this.nombre_persona = nombre_persona;
     }
-
+    
     public ArrayList<Medicamentos> getLista_medicamentos() {
         return lista_medicamentos;
     }
@@ -61,6 +61,14 @@ public class Personas {
             mensaje+= medicamento.toString();
        }
         return mensaje;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
     
 }
