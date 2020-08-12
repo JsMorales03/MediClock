@@ -8,19 +8,18 @@ public class Medicamentos {
     
     int id_medicamento;
     String nombre_medicamento;
-    Double cantidad_medicamento;               //cantidad total
-    Double dosis;                              //dosis (la cantidad que toma)
+    Double cantidad_medicamento;               //cantidad total                            //dosis (la cantidad que toma)
     ArrayList<Horarios> horarios_medicamento = new ArrayList<>();
 
     public Medicamentos() {
     }
 
     
-    public Medicamentos(int id_medicamento, String nombre_medicamento, Double cantidad_medicamento, Double dosis) {
+    public Medicamentos(int id_medicamento, String nombre_medicamento, Double cantidad_medicamento) {
         this.id_medicamento = id_medicamento;
         this.nombre_medicamento = nombre_medicamento;
         this.cantidad_medicamento = cantidad_medicamento;
-        this.dosis = dosis;
+
     }
 
     public int getId_medicamento() {
@@ -47,14 +46,6 @@ public class Medicamentos {
         this.cantidad_medicamento = cantidad_medicamento;
     }
 
-    public Double getDosis() {
-        return dosis;
-    }
-
-    public void setDosis(Double dosis) {
-        this.dosis = dosis;
-    }
-
     public ArrayList<Horarios> getHorarios_medicamento() {
         return horarios_medicamento;
     }
@@ -69,7 +60,7 @@ public class Medicamentos {
 
     @Override
     public String toString() {
-        String mensaje = "No. " + id_medicamento + " Nombre " + nombre_medicamento + " Cantidad " + cantidad_medicamento + " Dosis " + dosis +"\n";
+        String mensaje = "No. " + id_medicamento + " Nombre " + nombre_medicamento + " Cantidad " + cantidad_medicamento +"\n";
         for(Horarios hora: horarios_medicamento)
         {
            mensaje+= hora.toString();

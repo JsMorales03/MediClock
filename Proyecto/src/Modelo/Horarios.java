@@ -5,13 +5,14 @@ package Modelo;
 public class Horarios {
     String dia;
     String hora;
-
+    Double dosis;
     public Horarios() {
     }
 
-    public Horarios(String dia, String hora) {
+    public Horarios(String dia, String hora,Double dosis) {
         this.dia = dia;
         this.hora = hora;
+        this.dosis = dosis;
     }
 
     public String getDia() {
@@ -30,9 +31,18 @@ public class Horarios {
         this.hora = hora;
     }
 
+    public Double getDosis() {
+        return dosis;
+    }
+
+    public void setDosis(Double dosis) {
+        this.dosis = dosis;
+    }
+    
+
     @Override
     public String toString() {
-        return " Día " + dia + " Hora " + hora + '\n';
+        return " Día " + dia + " Hora " + hora + " Dosis "+dosis+'\n';
     }
     
 }
