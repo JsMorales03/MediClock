@@ -2,8 +2,14 @@
 package Modelo;
 
 import Vista.InOut;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Proceso {
@@ -88,16 +94,17 @@ public class Proceso {
               obj_medicamento.setCantidad_medicamento(inOut.solicitarDoubles("Digite el contenido neto del producto")); 
             }
             obj_medicamento.setUnidad_medida(inOut.solicitarNombre("Digite la unidad de medida"));
-           asignarHorario(obj_medicamento);
-           obj_persona.setMedicamento(obj_medicamento);
+            
+            asignarHorario(obj_medicamento,obj_persona);
         }
     }
-    public void asignarHorario(Medicamentos obj_medicamento)
+    public void asignarHorario(Medicamentos obj_medicamento,Personas obj_persona)
     {
-        Horarios obj_horario = new Horarios();
-           String mensaje= "1.Lunes\n2.Martes\n3.Miercoles\n4.Jueves\n5.Viernes\n6.Sábado\n7.Domingo";
+        
+           String mensaje= "1.Domingo\n2.Lunes\n3.Martes\n4.Miercoles\n5.Jueves\n6.Viernes\n7.Sábado\n";
             do 
             {
+                Horarios obj_horario = new Horarios();
                 int opcion= inOut.solicitarEntero(mensaje+"\n\nDigite una opción");
 
                 obj_horario.setDia(seleccionarDias(opcion));
@@ -107,39 +114,41 @@ public class Proceso {
                     obj_horario.setDia(seleccionarDias(opcion));
                 }
                 obj_horario.setHora(inOut.solicitarNombre("Digite la hora en formato de 24h\nEjemplo: 14:30"));
-                while(!validarFormato(obj_horario.getHora()))
+                while(!validarFormato(obj_horario.getHora(),obj_horario))
                 {
-                 obj_horario.setHora(inOut.solicitarNombre("FORMATO INCORRECTO\nDigite la hora en formato de 24h\nEjemplo: 14:30"));
+                 obj_horario.setHora(inOut.solicitarNombre("FORMATO INCORRECTO\nDigite la hora en formato de 24h SIN dos puntos\nEjemplo: 14:30 -> 1430"));
                 }
-               obj_horario.setDosis(inOut.solicitarDoubles("Digite cuantos "+obj_medicamento.getUnidad_medida()+ " ingiere el "+obj_horario.getDia()));
+                inOut.mostrarResultado("Hora seleccionada: "+ obj_horario.getHora());
+               obj_horario.setDosis(inOut.solicitarDoubles("Cantidad ingeridad el día "+obj_horario.getDia()));
                obj_medicamento.setHorario(obj_horario);
             }
             while(JOptionPane.showConfirmDialog(null,"¿Desea registrar un nuevo recordatorio?","Seleccione una opcion",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION);
+      obj_persona.setMedicamento(obj_medicamento);
     }
     public String seleccionarDias(int opc)
     {
         switch(opc)
         {
             case 1:{
-                return String.valueOf(Calendar.MONDAY);
+                return "Domingo";
             }
             case 2:{
-                return String.valueOf(Calendar.TUESDAY);
+                return "Lunes";
             }
             case 3:{
-                return String.valueOf(Calendar.WEDNESDAY);
+                return "Martes";
             }
             case 4:{
-                return String.valueOf(Calendar.THURSDAY);
+                return "Miercoles";
             }
             case 5:{
-                return String.valueOf(Calendar.FRIDAY);
+                return "Jueves";
             }
             case 6:{
-                return String.valueOf(Calendar.SATURDAY);
+                return "Viernes";
             }
             case 7:{
-                return String.valueOf(Calendar.FRIDAY);
+                return "Sábado";
             }
             default:{
                 return null;
@@ -167,27 +176,17 @@ public class Proceso {
         }
         return false;
     }
-    public boolean validarFormato(String horario)
+    public boolean validarFormato(String horario,Horarios obj_horario) 
     {
-        int horas;
-        int minutos;
-        try
-        {
-            horas= Integer.parseInt((horario.charAt(0)+horario.charAt(1)));
-            minutos = Integer.parseInt((horario.charAt(3)+horario.charAt(4)));    
-        }
-        catch(NumberFormatException ex)
-        {
-            return false; //si alguno no es un número retorna falso
-        }
-        if(horas>24||horas<=0||minutos>60||minutos<0)
-        {
+        DateFormat formatoOrigen = new SimpleDateFormat("HHmm");
+        DateFormat formatoDestino = new SimpleDateFormat("HH:mm");
+        Date fecha;
+        try {
+            fecha = formatoOrigen.parse(horario);
+        } catch (ParseException ex) {
             return false;
         }
-        if(horario.charAt(2)!=':')
-        {
-            return false;
-        }
+        obj_horario.setHora(formatoDestino.format(fecha));
         return true;
     }
   

@@ -10,7 +10,7 @@ public class Main {
      static InOut ioData = new InOut();
     public static void main(String[] args) {
            Personas obj_persona = new Personas();
-           obj_persona.setNombre_persona("Paula");
+           obj_persona.setNombre_persona("Paula");      
            menuMedicamentos(obj_persona);
     }
     public static void menuMedicamentos(Personas obj_persona)
@@ -36,6 +36,9 @@ public class Main {
                 case 2:{
                     gestion.listarMedicamentos(obj_persona);
                     break;
+                }
+                case 3:{
+                   break;
                 }
                 case 6:{
                     System.exit(0);
