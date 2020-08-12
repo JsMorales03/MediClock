@@ -21,7 +21,7 @@ public class Proceso {
        
          String usuario = inOut.solicitarNombre("Digite su nombre de usuario: ");
          
-        while(verificarUsuario(usuario)!= -1){
+        while(verificarUsuario(usuario)!= -1){                                          //Si es diferente de -1 significa que existe el usuario
              usuario = inOut.solicitarNombre("\nEl usuario ya existe. \nDigite su nombre de usuario: ");
         }
         
