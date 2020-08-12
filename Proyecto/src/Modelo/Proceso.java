@@ -87,8 +87,8 @@ public class Proceso {
             {
               obj_medicamento.setCantidad_medicamento(inOut.solicitarDoubles("Digite el contenido neto del producto")); 
             }
-            obj_medicamento.setUnidad_medida("Digite la unidad de medida");
-           
+            obj_medicamento.setUnidad_medida(inOut.solicitarNombre("Digite la unidad de medida"));
+           asignarHorario(obj_medicamento);
            obj_persona.setMedicamento(obj_medicamento);
         }
     }
@@ -108,6 +108,7 @@ public class Proceso {
                 }
                 obj_horario.setHora(inOut.solicitarNombre("Digite la hora en formato de 24h\nEjemplo: 14:30"));
                obj_horario.setDosis(inOut.solicitarDoubles("Digite cuantos "+obj_medicamento.getUnidad_medida()+ " ingiere el "+obj_horario.getDia()));
+               obj_medicamento.setHorario(obj_horario);
             }
             while(JOptionPane.showConfirmDialog(null,"¿Desea registrar un nuevo recordatorio?","Seleccione una opcion",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION);
     }
