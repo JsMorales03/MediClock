@@ -14,7 +14,13 @@ public class Proceso {
     public void crearUsuario(){
 
         String nombre = inOut.solicitarNombre("Digite su nombre: ");
-        String  usuario = inOut.solicitarNombre("Digite su nombre de usuario: ");
+       
+         String usuario = inOut.solicitarNombre("Digite su nombre de usuario: ");
+         
+        while(verificarUsuario(usuario)!= -1){
+             usuario = inOut.solicitarNombre("\nEl usuario ya existe. \nDigite su nombre de usuario: ");
+        }
+        
         String contrasena = inOut.solicitarNombre("Digite su contraseña: ");
            
         Personas persona = new Personas(nombre,usuario,contrasena);
@@ -34,7 +40,6 @@ public class Proceso {
             
             if(verificarContrasena(contrasena, posicion)){
                 
-                
             }
                 
         } else
@@ -50,9 +55,7 @@ public class Proceso {
             if(personas.get(i).getUsuario().equals(usuario))
                     return i;
         }
-        
         return -1;
-        
     }
     
     public boolean verificarContrasena(String contrasena, int posicion){
