@@ -116,25 +116,25 @@ public class Proceso {
         switch(opc)
         {
             case 1:{
-                return "Lunes";
+                return String.valueOf(Calendar.MONDAY);
             }
             case 2:{
-                return "Martes";
+                return String.valueOf(Calendar.TUESDAY);
             }
             case 3:{
-                return "Miercoles";
+                return String.valueOf(Calendar.WEDNESDAY);
             }
             case 4:{
-                return "Jueves";
+                return String.valueOf(Calendar.THURSDAY);
             }
             case 5:{
-                return "Viernes";
+                return String.valueOf(Calendar.FRIDAY);
             }
             case 6:{
-                return "Sábado";
+                return String.valueOf(Calendar.SATURDAY);
             }
             case 7:{
-                return "Domingo";
+                return String.valueOf(Calendar.FRIDAY);
             }
             default:{
                 return null;
