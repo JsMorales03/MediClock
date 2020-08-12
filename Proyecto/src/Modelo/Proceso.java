@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Modelo;
 
 import Vista.InOut;
@@ -58,12 +54,9 @@ public class Proceso {
             
             if(personas.get(i).getUsuario().equals(usuario))
                     return i;
-            
         }
         return -1;
     }
-    
-     
     
     public boolean verificarContrasena(String contrasena, int posicion){
         
