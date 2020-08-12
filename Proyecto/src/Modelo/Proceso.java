@@ -8,8 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Proceso {
@@ -51,28 +49,125 @@ public class Proceso {
                 
         } else
             inOut.mostrarResultado("El usuario es incorrecto.");
-        
-        
-    }
+
+     }
+
     
-    public int verificarUsuario(String usuario){
-        
-        for(int i=0 ; i<personas.size(); i++){
-            
-            if(personas.get(i).getUsuario().equals(usuario))
-                    return i;
+
+    public int verificarUsuario(String usuario) {
+
+        for (int i = 0; i < personas.size(); i++) {
+
+            if (personas.get(i).getUsuario().equals(usuario)) {
+                return i;
+            }
         }
         return -1;
     }
-    
-    public boolean verificarContrasena(String contrasena, int posicion){
-        
-        if(personas.get(posicion).getContrasena().equals(contrasena))
+
+    public boolean verificarContrasena(String contrasena, int posicion) {
+
+        if (personas.get(posicion).getContrasena().equals(contrasena)) {
             return true;
-        else
+        } else {
             return false;
-           
+        }
+
     }
+
+    public void modificarMedicamento(Personas persona) {
+
+        int opc, medicamento;
+
+        do {
+            opc = inOut.solicitarEntero("MENU MODIFICAR MEDICAMENTO. \n"
+                    + "1. Cambiar id del medicamento \n"
+                    + "2. Cambiar nombre del medicamento \n"
+                    + "3. Cambiar cantidad del medicamento \n"
+                    + "4. Salir \n");
+            switch (opc) {
+                case 1:
+                    medicamento = mostrarMedicamentos(persona);
+                    modificarId(persona, medicamento);
+                    break;
+                case 2:
+                    medicamento = mostrarMedicamentos(persona);
+                    cambiarNombreMed(persona, medicamento);
+                    break;
+                case 3:
+                    medicamento = mostrarMedicamentos(persona);
+                    
+                    break;
+                case 4: break;
+                default:
+                    inOut.mostrarResultado("OPCION NO VALIDA...");
+            }
+        } while (opc != 4);
+
+    }
+
+    public int returnPosicion(int medicamento, Personas persona) {
+        while (true) {
+            if (medicamento > 0 && medicamento <= persona.getLista_medicamentos().size()) {                                            //Si digita un número entre 0 y la cantidad de categorias, entra
+                return medicamento - 1;
+            } else {
+                medicamento = inOut.solicitarEntero("\nDebe digitar un número dentro del rango [1, " + persona.getLista_medicamentos().size() + "] \nDigite el número del medicamento que desea modificar: ");
+            }
+        }
+    }
+
+    public int mostrarMedicamentos(Personas persona) {
+
+        String acumulador = " ";
+
+        acumulador += ("Medicamentos:");
+
+        for (int i = 0; i < persona.getLista_medicamentos().size(); i++) {
+
+            acumulador += ((i + 1) + ": " + persona.getLista_medicamentos().get(i).getNombre_medicamento() + "\n");
+
+        }
+
+        acumulador += ("\n\nDigite el número del medicamento: ");
+
+        int numero;
+
+        numero = inOut.solicitarEntero(acumulador);
+        numero = returnPosicion(numero, persona);
+
+        return numero;
+
+    }
+
+    public void modificarId(Personas persona, int posicion) {
+
+        int id = inOut.solicitarEntero("Digite el nuevo ID del medicamento.");
+        while (mirarID(id, persona) == true || verificarEnterosPos(id) == false ) {
+            if(mirarID(id, persona) == true )
+            id = inOut.solicitarEntero("El ID del medicamento ya existe. \nDigite el ID del medicamento.");
+            else
+            id = inOut.solicitarEntero("El ID del medicamento no puede ser negativo. \nDigite el ID del medicamento.");    
+        }
+
+        persona.getLista_medicamentos().get(posicion).setId_medicamento(id);
+    }
+
+    public void cambiarNombreMed(Personas persona, int posicion) {
+
+        String nombre = inOut.solicitarNombre("Digite el nuevo nombre del medicamento.");
+
+        while (verificarNombreMedicamento(nombre, persona)) {
+            nombre = inOut.solicitarNombre("El nombre del medicamento ya existe. \nDigite el nombre del medicamento.");
+        }
+        persona.getLista_medicamentos().get(posicion).setNombre_medicamento(nombre);
+
+    }
+    
+    public void cambiarCantidad(int posicion, Personas persona){
+ 
+        
+    }
+    
     public void insertarMedicamento(Personas obj_persona)
     {
         Medicamentos obj_medicamento = new Medicamentos();
@@ -93,9 +188,11 @@ public class Proceso {
             {
               obj_medicamento.setCantidad_medicamento(inOut.solicitarDoubles("Digite el contenido neto del producto")); 
             }
+
             obj_medicamento.setUnidad_medida(inOut.solicitarNombre("Digite la unidad de medida"));
             
             asignarHorario(obj_medicamento,obj_persona);
+
         }
     }
     public void asignarHorario(Medicamentos obj_medicamento,Personas obj_persona)
@@ -113,7 +210,7 @@ public class Proceso {
                     opcion= inOut.solicitarEntero(mensaje+"\n\nOpción no encontrada\nDigite una opción");
                     obj_horario.setDia(seleccionarDias(opcion));
                 }
-                obj_horario.setHora(inOut.solicitarNombre("Digite la hora en formato de 24h\nEjemplo: 14:30"));
+                obj_horario.setHora(inOut.solicitarNombre("Digite la hora en formato de 24h SIN dos puntos\nEjemplo: 14:30 -> 1430"));
                 while(!validarFormato(obj_horario.getHora(),obj_horario))
                 {
                  obj_horario.setHora(inOut.solicitarNombre("FORMATO INCORRECTO\nDigite la hora en formato de 24h SIN dos puntos\nEjemplo: 14:30 -> 1430"));

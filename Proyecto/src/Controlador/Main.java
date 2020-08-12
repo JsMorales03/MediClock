@@ -6,6 +6,7 @@ import Modelo.Proceso;
 import Vista.InOut;
 
 public class Main {
+
      static Proceso gestion = new Proceso();
      static InOut ioData = new InOut();
     public static void main(String[] args) {
@@ -21,7 +22,6 @@ public class Main {
                       "\n3.Medicamentos del día "+
                       "\n4.Modificar medicamentos"+
                       "\n5.Eliminar medicamentos"; 
-        
         int opcion;
         do
         {
