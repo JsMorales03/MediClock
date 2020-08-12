@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 public class Proceso {
     
     ArrayList<Personas> personas = new ArrayList();
+     Calendar day = Calendar.getInstance();
     
     InOut inOut = new InOut();
     
@@ -157,11 +158,11 @@ public class Proceso {
             switch (opc) {
                 case 1:
                     medicamento = mostrarMedicamentos(persona);
-                   // modificarId(persona, medicamento);
+                    modificarId(persona, medicamento);
                     break;
                 case 2:
                     medicamento = mostrarMedicamentos(persona);
-                    //cambiarNombreMed(persona, medicamento);
+                    cambiarNombreMed(persona, medicamento);
                     break;
                 case 3:
                     medicamento = mostrarMedicamentos(persona);
@@ -208,7 +209,7 @@ public class Proceso {
 
     }
 
-   /* public void modificarId(Personas persona, int posicion) {
+    public void modificarId(Personas persona, int posicion) {
 
         int id = inOut.solicitarEntero("Digite el nuevo ID del medicamento.");
         while (mirarID(id, persona) == true || verificarEnterosPos(id) == false ) {
@@ -230,17 +231,101 @@ public class Proceso {
         }
         persona.getLista_medicamentos().get(posicion).setNombre_medicamento(nombre);
 
-    }*/
-    
-    public void cambiarCantidad(int posicion, Personas persona){
- 
+    }
+     public void cambiarCantidad(int posicion, Personas persona){
+        
+        double cantidad = inOut.solicitarEntero("Digite la nueva cantidad del medicamento.");
+        while(cantidad<=0){
+            cantidad = inOut.solicitarEntero("\nLa cantidad no puede ser negativa. \nDigite la cantidad del medicamento."); 
+        }
+        persona.getLista_medicamentos().get(posicion).setCantidad_medicamento(cantidad);
         
     }
-    
-    
-    
-    
 
+    public boolean verificarNombreMedicamento(String nombre, Personas persona) {
+
+        for (int i = 0; i < persona.getLista_medicamentos().size(); i++) {
+
+            if (persona.getLista_medicamentos().get(i).getNombre_medicamento().equals(nombre)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    public boolean mirarID(int id, Personas persona) {
+
+        for (int i = 0; i < persona.getLista_medicamentos().size(); i++) {
+
+            if (persona.getLista_medicamentos().get(i).getId_medicamento() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean verificarEnterosPos(int numero){
+        if(numero>0)
+            return true;
+        else
+            return false;
+    }
+    
+      public void eliminarMedicamento(Personas persona){
+        
+       int medicamento = mostrarMedicamentos(persona);
+       persona.getLista_medicamentos().remove(medicamento);
+        
+
+    }
+
+    public Personas IniciarSesion(){
+        String usuario = inOut.solicitarNombre("Digite su nombre de usuario: ");
+        if(verificarUsuario(usuario)!= -1){
+            int pos= verificarUsuario(usuario);
+             String contraseña=inOut.solicitarNombre("Ingrese la contraseña: ");
+                 while(verificarContrasena(contraseña,pos)== false){
+                     contraseña=inOut.solicitarNombre("Ingrese la contraseña: ");
+                 }
+            return personas.get(pos);
+        }else{
+            return null;
+        }
+    }
+    public void menuInicio(){
+        int opc;
+        String contraseña;
+        Personas usuario;
+        do{
+            String mensaje= "1.Iniciar Sesion \n"
+                      +     "2.Registrar Cuenta \n";
+            opc=inOut.solicitarEntero(mensaje);
+              switch(opc)
+                {
+                    case 1:{
+                       usuario = IniciarSesion();
+                       if(usuario != null){
+                    
+                           
+                       }else{
+                           inOut.mostrarResultado("USUARIO NO ENCONTRADO");
+                       }
+                        break;
+                    }
+                    case 2:{
+                        crearUsuario();
+                        break;
+                    }
+                    default:{
+                        inOut.mostrarResultado("Opción incorrecta");
+                        break;
+                    }
+                }  
+        } while(opc!=2); 
+
+    }
+    
     public int verificarUsuario(String usuario) {
 
         for (int i = 0; i < personas.size(); i++) {
@@ -260,6 +345,23 @@ public class Proceso {
             return false;
         }
 
+    }
+     public void medicamentosDia(){
+        if(personas.isEmpty()==true){
+            inOut.mostrarResultado("LISTA VACIA...");
+        }
+        else{
+            int dia = day.get(Calendar.DAY_OF_MONTH);
+            String hoy = String.valueOf(dia);
+            String mostrar = " ";
+            for(int i=0; i<personas.size(); i++){
+                if(personas.get(i).getLista_medicamentos().get(i).getHorarios_medicamento().get(i).getDia().equals(hoy)){
+                    mostrar+= ("MEDICAMENTOS DE HOY \n"+"Nombre Medicamento: "+personas.get(i).getLista_medicamentos().get(i).getNombre_medicamento()
+                        +"  Cantidad: "+personas.get(i).getLista_medicamentos().get(i).getCantidad_medicamento());
+                }
+            }
+            inOut.mostrarResultado(mostrar);
+        }
     }
     public boolean validarExistenciaMedicamento(ArrayList<Medicamentos> lista_medicamentos,String nombre_medicamento)
     {
