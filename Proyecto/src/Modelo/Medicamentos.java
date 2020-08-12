@@ -66,5 +66,16 @@ public class Medicamentos {
     {
         this.horarios_medicamento.add(horario);
     }
+
+    @Override
+    public String toString() {
+        String mensaje = "No. " + id_medicamento + " Nombre " + nombre_medicamento + " Cantidad " + cantidad_medicamento + " Dosis " + dosis +"\n";
+        for(Horarios hora: horarios_medicamento)
+        {
+           mensaje+= hora.toString();
+        }
+
+        return   mensaje;
+    }
     
 }
