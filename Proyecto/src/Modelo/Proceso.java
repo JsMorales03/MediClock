@@ -264,6 +264,7 @@ public class Proceso {
                         +"  Cantidad: "+personas.get(i).lista_medicamentos.get(i).cantidad_medicamento);
                 }
             }
+            inOut.mostrarResultado(mostrar);
         }
     }
     public void insertarMedicamento(Personas obj_persona)
