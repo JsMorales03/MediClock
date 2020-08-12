@@ -52,7 +52,15 @@ public class Personas {
     {
         this.lista_medicamentos.add(medicamento);
     }
+    
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+    
     @Override
     public String toString() {
         String mensaje="Nombre : " + nombre_persona + " Usuario: " + usuario+"\nMedicamentos:";
@@ -63,12 +71,4 @@ public class Personas {
         return mensaje;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-    
 }
