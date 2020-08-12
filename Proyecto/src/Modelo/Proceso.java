@@ -2,12 +2,14 @@ package Modelo;
 
 import Vista.InOut;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Proceso {
 
     ArrayList<Personas> personas = new ArrayList();
 
     InOut inOut = new InOut();
+    Calendar day = Calendar.getInstance();
 
     public void crearUsuario() {
 
@@ -246,5 +248,21 @@ public class Proceso {
        persona.lista_medicamentos.remove(medicamento);
         
 
+    }
+    public void medicamentosDia(){
+        if(personas.isEmpty()==true){
+            inOut.mostrarResultado("LISTA VACIA...");
+        }
+        else{
+            int dia = day.get(Calendar.DAY_OF_MONTH);
+            String hoy = String.valueOf(dia);
+            String mostrar = " ";
+            for(int i=0; i<personas.size(); i++){
+                if(personas.get(i).lista_medicamentos.get(i).horarios_medicamento.get(i).dia.equals(hoy)){
+                    mostrar+= ("MEDICAMENTOS DE HOY \n"+"Nombre Medicamento: "+personas.get(i).lista_medicamentos.get(i).nombre_medicamento
+                        +"  Cantidad: "+personas.get(i).lista_medicamentos.get(i).cantidad_medicamento);
+                }
+            }
+        }
     }
 }
