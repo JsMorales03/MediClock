@@ -21,7 +21,8 @@ public class Main {
                       "\n2.Desplegar medicamentos"+
                       "\n3.Medicamentos del día "+
                       "\n4.Modificar medicamentos"+
-                      "\n5.Eliminar medicamentos"; 
+                      "\n5.Eliminar medicamentos"+
+                      "\n6. Salir."; 
         int opcion;
         do
         {
@@ -34,11 +35,20 @@ public class Main {
                     break;
                    }
                 case 2:{
-                    gestion.listarMedicamentos(obj_persona);
+                    gestion.mostrarMedicamentos(obj_persona);
                     break;
                 }
                 case 3:{
+                       gestion.medicamentosDia();
                    break;
+                }
+                case 4:{
+                    gestion.modificarMedicamento(obj_persona);
+                   break; 
+                }
+                case 5: {
+                    gestion.eliminarMedicamento(obj_persona);
+                    break;
                 }
                 case 6:{
                     System.exit(0);
