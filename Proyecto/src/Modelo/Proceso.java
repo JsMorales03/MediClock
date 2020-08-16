@@ -8,13 +8,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 
 public class Proceso {
     
     ArrayList<Personas> personas = new ArrayList();
      Calendar day = Calendar.getInstance();
-    
+     public static  boolean estado=false;
     InOut inOut = new InOut();
     
     public void crearUsuario(){
@@ -89,11 +90,11 @@ public class Proceso {
                 Horarios obj_horario = new Horarios();
                 int opcion= inOut.solicitarEntero(mensaje+"\n\nDigite una opción");
 
-                obj_horario.setDia(seleccionarDias(opcion));
-                while(obj_horario.getDia()==null)
+                obj_horario.setDia(opcion);
+                while(obj_horario.getDia()<=0||obj_horario.getDia()>7)
                 {
                     opcion= inOut.solicitarEntero(mensaje+"\n\nOpción no encontrada\nDigite una opción");
-                    obj_horario.setDia(seleccionarDias(opcion));
+                   obj_horario.setDia(opcion);
                 }
                 obj_horario.setHora(inOut.solicitarNombre("Digite la hora en formato de 24h SIN dos puntos\nEjemplo: 14:30 -> 1430"));
                 while(!validarFormato(obj_horario.getHora(),obj_horario))
@@ -355,7 +356,7 @@ public class Proceso {
             String hoy = String.valueOf(dia);
             String mostrar = " ";
             for(int i=0; i<personas.size(); i++){
-                if(personas.get(i).getLista_medicamentos().get(i).getHorarios_medicamento().get(i).getDia().equals(hoy)){
+                if(personas.get(i).getLista_medicamentos().get(i).getHorarios_medicamento().get(i).getDia()==dia){
                     mostrar+= ("MEDICAMENTOS DE HOY \n"+"Nombre Medicamento: "+personas.get(i).getLista_medicamentos().get(i).getNombre_medicamento()
                         +"  Cantidad: "+personas.get(i).getLista_medicamentos().get(i).getCantidad_medicamento());
                 }
@@ -387,6 +388,57 @@ public class Proceso {
         }
         obj_horario.setHora(formatoDestino.format(fecha));
         return true;
+    }
+    public void iniciarRecordatorio(Personas obj_persona)
+    {
+       if(!obj_persona.getLista_medicamentos().isEmpty())
+       {
+        DetenerRecordatorio o= new DetenerRecordatorio();
+         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+         int dia=0;
+         boolean estado_mensaje =false;
+         boolean estado_ventana = false;
+         int v=0;
+         while(!estado)
+         {
+            
+            dia =  day.get(Calendar.DAY_OF_WEEK);
+            Date date = new Date();  
+           if(estado_mensaje&&!validarAlarma(dia,date,obj_persona))
+            {
+                estado_mensaje = false;
+            }
+             if(validarAlarma(dia,date,obj_persona)&&!estado_mensaje)
+             {
+                System.out.println("Alarmaaa!"+ "Hora : "+ dateFormat.format(date));
+                estado_mensaje=true;             
+             }
+             if(!estado_ventana)
+             {
+                 estado_ventana=true;
+                
+                o.setVisible(true);
+             }
+         }
+         o.setVisible(false);
+       }
+    }
+    public boolean validarAlarma(int dia_actual,Date hora,Personas obj_persona)
+    {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        
+        for(Medicamentos medicamentos:obj_persona.getLista_medicamentos())
+        {
+            for(Horarios hora_consumo: medicamentos.getHorarios_medicamento())
+            {
+                 if(hora_consumo.getDia()==dia_actual&&dateFormat.format(hora).equals(hora_consumo.getHora()))
+                 {
+                     return true;
+                 }
+            }
+        }
+       
+        return false;
     }
     
   
