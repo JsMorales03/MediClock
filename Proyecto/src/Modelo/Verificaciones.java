@@ -5,6 +5,7 @@
  */
 package Modelo;
 
+import Controlador.Main;
 import Vista.InOut;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -16,7 +17,7 @@ import java.util.Date;
 public class Verificaciones {
     
     InOut inOut = new InOut();
-    Proceso proceso = new Proceso();
+    Proceso proceso = Main.gestion;
     Calendar day = Calendar.getInstance();
     
      public int verificarUsuario(String usuario) {
