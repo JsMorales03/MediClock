@@ -1,30 +1,19 @@
 
 package Modelo;
 
+import Controlador.Main;
 import Vista.InOut;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.text.*;
+import java.util.*;
 import javax.swing.JOptionPane;
-
+import ds.desktop.notify.DesktopNotify;
 public class Proceso {
     
-    ArrayList<Personas> personas = new ArrayList();
-
-     Calendar day = Calendar.getInstance();
-     public static  boolean estado=false;
+    ArrayList<Personas> personas = new ArrayList();    
+    public static  boolean estado=false;
     InOut inOut = new InOut();
-
     Verificaciones verificaciones = new Verificaciones();           //Verificar datos
-    
-    public ArrayList<Personas> getPersonas() {                      // Retorna la lista de personas a las verificaciones
-        return personas;
-    }
-    
+      Calendar day = Calendar.getInstance();
     public void insertarMedicamento(Personas obj_persona)     
     {
         Medicamentos obj_medicamento = new Medicamentos();
@@ -49,7 +38,7 @@ public class Proceso {
             obj_medicamento.setUnidad_medida(inOut.solicitarNombre("Digite la unidad de medida"));
             
             asignarHorario(obj_medicamento,obj_persona);
-
+            obj_persona.setMedicamento(obj_medicamento);
         }
     }
     
@@ -127,7 +116,7 @@ public class Proceso {
 
         String nombre = inOut.solicitarNombre("Digite el nuevo nombre del medicamento.");
 
-        while (verificarNombreMedicamento(nombre, persona)) {
+        while (verificaciones.verificarNombreMedicamento(nombre, persona)) {
             nombre = inOut.solicitarNombre("El nombre del medicamento ya existe. \nDigite el nombre del medicamento.");
         }
         persona.getLista_medicamentos().get(posicion).setNombre_medicamento(nombre);
@@ -191,7 +180,7 @@ public class Proceso {
                    obj_horario.setDia(opcion);
                 }
                 obj_horario.setHora(inOut.solicitarNombre("Digite la hora en formato de 24h SIN dos puntos\nEjemplo: 14:30 -> 1430"));
-                while(!validarFormato(obj_horario.getHora(),obj_horario))
+                while(!verificaciones.validarFormato(obj_horario.getHora(),obj_horario))
                 {
                  obj_horario.setHora(inOut.solicitarNombre("FORMATO INCORRECTO\nDigite la hora en formato de 24h SIN dos puntos\nEjemplo: 14:30 -> 1430"));
                 }
@@ -200,7 +189,7 @@ public class Proceso {
                obj_medicamento.setHorario(obj_horario);
             }
             while(JOptionPane.showConfirmDialog(null,"¿Desea registrar un nuevo recordatorio?","Seleccione una opcion",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION);
-            obj_persona.setMedicamento(obj_medicamento);
+            
     }       
     public String seleccionarDias(int opc)
     {
@@ -233,17 +222,6 @@ public class Proceso {
         }
     }
 
-    public boolean verificarNombreMedicamento(String nombre, Personas persona) {
-
-        for (int i = 0; i < persona.getLista_medicamentos().size(); i++) {
-
-            if (persona.getLista_medicamentos().get(i).getNombre_medicamento().equals(nombre)) {
-                return true;
-            }
-        }
-        return false;
-
-    }
   
     public Personas IniciarSesion(){
         String usuario = inOut.solicitarNombre("Digite su nombre de usuario: ");
@@ -273,7 +251,7 @@ public class Proceso {
                        usuario = IniciarSesion();
                        if(usuario != null){
                     
-                           
+                           Main.menuMedicamentos(usuario);
                        }else{
                            inOut.mostrarResultado("USUARIO NO ENCONTRADO");
                        }
@@ -292,34 +270,13 @@ public class Proceso {
 
     }
 
-    
-    public int verificarUsuario(String usuario) {
-
-        for (int i = 0; i < personas.size(); i++) {
-
-            if (personas.get(i).getUsuario().equals(usuario)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public boolean verificarContrasena(String contrasena, int posicion) {
-
-        if (personas.get(posicion).getContrasena().equals(contrasena)) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
      public void medicamentosDia(){
         if(personas.isEmpty()==true){
             inOut.mostrarResultado("LISTA VACIA...");
         }
         else{
+                Calendar day = Calendar.getInstance();
             int dia = day.get(Calendar.DAY_OF_MONTH);
-            String hoy = String.valueOf(dia);
             String mostrar = " ";
             for(int i=0; i<personas.size(); i++){
                 if(personas.get(i).getLista_medicamentos().get(i).getHorarios_medicamento().get(i).getDia()==dia){
@@ -330,47 +287,23 @@ public class Proceso {
             inOut.mostrarResultado(mostrar);
         }
     }
-    public boolean validarExistenciaMedicamento(ArrayList<Medicamentos> lista_medicamentos,String nombre_medicamento)
-    {
-        if(!lista_medicamentos.isEmpty())
-        {
-          for(Medicamentos medicamento:lista_medicamentos)
-            {
-            if(medicamento.getNombre_medicamento().equalsIgnoreCase(nombre_medicamento))
-                   return true;
-            }
-        }
-        return false;
-    }
-    public boolean validarFormato(String horario,Horarios obj_horario) 
-    {
-        DateFormat formatoOrigen = new SimpleDateFormat("HHmm");
-        DateFormat formatoDestino = new SimpleDateFormat("HH:mm");
-        Date fecha;
-        try {
-            fecha = formatoOrigen.parse(horario);
-        } catch (ParseException ex) {
-            return false;
-        }
-        obj_horario.setHora(formatoDestino.format(fecha));
-        return true;
-    }
+   
     public void iniciarRecordatorio(Personas obj_persona)
     {
        if(!obj_persona.getLista_medicamentos().isEmpty())
        {
-        DetenerRecordatorio o= new DetenerRecordatorio();
+        DetenerRecordatorio o= new DetenerRecordatorio(); //formulario
          DateFormat dateFormat = new SimpleDateFormat("HH:mm");
          int dia=0;
          boolean estado_mensaje =false;
-         boolean estado_ventana = false;
-         int v=0;
+        
+         o.setVisible(true);
+
          while(!estado)
          {
-            
             dia =  day.get(Calendar.DAY_OF_WEEK);
             Date date = new Date();  
-           if(estado_mensaje&&!validarAlarma(dia,date,obj_persona))
+            if(estado_mensaje&&!validarAlarma(dia,date,obj_persona))
             {
                 estado_mensaje = false;
             }
@@ -379,17 +312,11 @@ public class Proceso {
                 System.out.println("Alarmaaa!"+ "Hora : "+ dateFormat.format(date));
                 estado_mensaje=true;             
              }
-             if(!estado_ventana)
-             {
-                 estado_ventana=true;
-                
-                o.setVisible(true);
-             }
          }
          o.setVisible(false);
        }
     }
-    public boolean validarAlarma(int dia_actual,Date hora,Personas obj_persona)
+        public boolean validarAlarma(int dia_actual,Date hora,Personas obj_persona)
     {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         
@@ -406,7 +333,6 @@ public class Proceso {
        
         return false;
     }
-    
 
 }
 

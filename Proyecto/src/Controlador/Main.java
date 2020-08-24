@@ -2,12 +2,11 @@
 package Controlador;
 
 import Modelo.*;
-import Modelo.Proceso;
 import Vista.InOut;
 
 public class Main {
 
-     static Proceso gestion = new Proceso();
+    public static Proceso gestion = new Proceso();
      static InOut ioData = new InOut();
     public static void main(String[] args) {
            Personas obj_persona = new Personas();
@@ -17,19 +16,16 @@ public class Main {
               obj_medicamento.setId_medicamento(1);
               obj_medicamento.setNombre_medicamento("Acetaminofen");
               Horarios obj_horario = new Horarios();
-              obj_horario.setDia(5);
-              obj_horario.setHora("20:57");
+              obj_horario.setDia(2);
+              obj_horario.setHora("16:03");
               Horarios obj_horario2 = new Horarios();
-              obj_horario2.setDia(5);
-              obj_horario2.setHora("20:59");
-              Horarios obj_horario3 = new Horarios();
-              obj_horario3.setDia(5);
-              obj_horario3.setHora("20:42");
+              obj_horario2.setDia(2);
+              obj_horario2.setHora("16:09");
               obj_medicamento.setHorario(obj_horario);
               obj_medicamento.setHorario(obj_horario2);
-              obj_medicamento.setHorario(obj_horario3);
+              gestion.menuInicio();
               obj_persona.setMedicamento(obj_medicamento);
-              gestion.iniciarRecordatorio(obj_persona);
+            // gestion.iniciarRecordatorio(obj_persona);
            //menuMedicamentos(obj_persona);
     }
     public static void menuMedicamentos(Personas obj_persona)
