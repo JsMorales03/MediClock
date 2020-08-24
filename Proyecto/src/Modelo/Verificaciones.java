@@ -17,16 +17,14 @@ import java.util.Date;
 
 public class Verificaciones {
     
-    InOut inOut = new InOut();
-    
-    Proceso proceso = Main.gestion;
+    InOut inOut = new InOut();    
     Calendar day = Calendar.getInstance();
     
      public int verificarUsuario(String usuario) {
 
-        for (int i = 0; i < proceso.getPersonas().size(); i++) {
+        for (int i = 0; i <Main.gestion.getPersonas().size(); i++) {
 
-            if (proceso.getPersonas().get(i).getUsuario().equals(usuario)) {
+            if (Main.gestion.getPersonas().get(i).getUsuario().equals(usuario)) {
                 return i;
             }
         }
@@ -35,7 +33,7 @@ public class Verificaciones {
 
     public boolean verificarContrasena(String contrasena, int posicion) {
 
-        if (proceso.getPersonas().get(posicion).getContrasena().equals(contrasena)) {
+        if (Main.gestion.getPersonas().get(posicion).getContrasena().equals(contrasena)) {
             return true;
         } else {
             return false;

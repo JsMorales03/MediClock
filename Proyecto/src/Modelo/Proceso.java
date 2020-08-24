@@ -11,10 +11,11 @@ import java.util.Date;
 import ds.desktop.notify.DesktopNotify;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
+import Controlador.Main;
 
 public class Proceso {
     
-    ArrayList<Personas> personas = new ArrayList();
+    public ArrayList<Personas> personas = new ArrayList();
      Calendar day = Calendar.getInstance();                         //Las fechas
     
     InOut inOut = new InOut();                                      // Solicitar datos
@@ -301,8 +302,9 @@ public class Proceso {
                 {
                     case 1:{
                        usuario = IniciarSesion();
+                       
                        if(usuario != null){
-                    
+                           Main.menuMedicamentos(usuario);
                            
                        }else{
                            inOut.mostrarResultado("USUARIO NO ENCONTRADO");
@@ -313,12 +315,15 @@ public class Proceso {
                         crearUsuario();
                         break;
                     }
+                    case 3:{
+                        break;
+                    }
                     default:{
                         inOut.mostrarResultado("Opción incorrecta");
                         break;
                     }
                 }  
-        } while(opc!=2); 
+        } while(opc!=3); 
 
     }
           

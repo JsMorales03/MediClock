@@ -10,10 +10,7 @@ public class Main {
     public static Proceso gestion = new Proceso();
      static InOut ioData = new InOut();
     public static void main(String[] args) {
-        
-           Personas obj_persona = new Personas();
-           obj_persona.setNombre_persona("Paula");      
-           menuMedicamentos(obj_persona);
+            gestion.menuInicio();
     }
     public static void menuMedicamentos(Personas obj_persona)
     {
@@ -31,7 +28,9 @@ public class Main {
             switch(opcion)
             {
 
-                case 1:{
+                case 1:
+                {
+                    
                     gestion.insertarMedicamento(obj_persona);
                     break;
                    }
