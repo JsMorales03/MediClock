@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import ds.desktop.notify.DesktopNotify;
+import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 
 public class Proceso {
@@ -62,7 +64,22 @@ public class Proceso {
 
         }
         return acumulador;
+    
+     }
+     public void alarma(){
+        String h="17:45";
+        boolean estado = false;
+        Calendar fecha = new GregorianCalendar();
+        DateFormat date = new SimpleDateFormat("HH:mm");
+        while(!estado){
+            Date date2 = new Date();
+            if(date.format(date2).equals(h)){
+                DesktopNotify.showDesktopMessage("Notificacion", "Alarma: "+" Hora: "+date.format(date2), DesktopNotify.SUCCESS);
+                estado= true;
+            }
+        }
     }
+
      
       public void medicamentosDia(){
         if(personas.isEmpty()==true){
