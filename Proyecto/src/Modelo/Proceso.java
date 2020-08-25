@@ -62,7 +62,6 @@ public class Proceso {
             for(int j =0;j<lista.size();j++)
             {
                 acumulador+= ("    Día: "+seleccionarDias(lista.get(j).getDia())+ " Hora : "+ lista.get(j).getHora()+"\n");
-                acumulador+= ("        Día: "+seleccionarDias(lista.get(j).getDia())+"     Hora: ");
             }
                   
           }
@@ -178,12 +177,12 @@ public class Proceso {
  
     public void asignarHorario(Medicamentos obj_medicamento,Personas obj_persona)
     {
-        
+        int opcion;
            String mensaje= "1.Domingo\n2.Lunes\n3.Martes\n4.Miercoles\n5.Jueves\n6.Viernes\n7.Sábado\n";
             do 
             {
                 Horarios obj_horario = new Horarios();
-                int opcion= inOut.solicitarEntero(mensaje+"\n\nDigite una opción");
+                opcion= inOut.solicitarEntero(mensaje+"\n\nDigite una opción");
                       
              obj_horario.setDia(opcion);
                 while(obj_horario.getDia()<=0||obj_horario.getDia()>7)
@@ -385,10 +384,8 @@ public class Proceso {
        }
     }
 
-
->>>>>>> e9802b256aa476d4c992db8f3438405d8ea5663f
 }
 
-}
+
 
 
