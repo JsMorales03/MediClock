@@ -297,12 +297,12 @@ public class Proceso {
     public void descontardosis(Medicamentos obj_medicamento,Personas obj_persona){
   
                 double opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida");
-                     while(obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()).getCantidad_medicamento()<opcion){
-                        opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida recuerde que este medicamento tiente "+obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()).getCantidad_medicamento());
+                     while(obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento()<opcion){
+                        opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida recuerde que este medicamento tiente "+obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento());
                          }  
                      double nuevo=0;  
-                     nuevo=obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()).getCantidad_medicamento();
-             obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()).setCantidad_medicamento(nuevo-opcion);
+                     nuevo=obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento();
+             obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).setCantidad_medicamento(nuevo-opcion);
               
     }
 
