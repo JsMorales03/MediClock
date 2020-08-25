@@ -12,6 +12,7 @@ import ds.desktop.notify.DesktopNotify;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import Controlador.Main;
+import static Controlador.Main.gestion;
 
 public class Proceso {
     
@@ -316,7 +317,9 @@ public class Proceso {
                         break;
                     }
                     case 3:{
-                        break;
+                        Archivos.crearArchivoPersonas(gestion);
+                        Archivos.crearMedicamentos(gestion);
+                         System.exit(0);
                     }
                     default:{
                         inOut.mostrarResultado("Opción incorrecta");
@@ -326,9 +329,23 @@ public class Proceso {
         } while(opc!=3); 
 
     }
-          
+    
+    public void verPersonas(){
+        String acumulador ="";
+        for(int i=0; i<personas.size(); i++){
+            acumulador+= ("Nombre: "+personas.get(i).getNombre()+"          Usuario"+personas.get(i).getUsuario()+"\n");
+            ArrayList<Medicamentos> medicamentos = personas.get(i).getLista_medicamentos();
+            for(int j=0; j<medicamentos.size(); j++){
+                 acumulador+= ("Nombre: "+medicamentos.get(j).getNombre_medicamento()+" \nCantidad "+medicamentos.get(j).getCantidad_medicamento()+" \nUnidad "+medicamentos.get(j).getUnidad_medida()+"\n");
+                 ArrayList<Horarios> horarios = medicamentos.get(j).getHorarios_medicamento();
+                         for(int k=0; k<horarios.size(); k++){
+                               acumulador+=("Dia : "+horarios.get(k).getDia()+" Cantidad: "+horarios.get(k).getHora()+" Dosis: "+horarios.get(k).getDosis()+"\n");
+                         }
+            }
+        }
+       inOut.mostrarResultado(acumulador);
 }
 
-    
+}
 
 

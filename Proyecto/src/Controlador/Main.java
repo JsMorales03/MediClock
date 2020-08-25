@@ -1,6 +1,7 @@
 
 package Controlador;
 
+import Modelo.Archivos;
 import Modelo.Personas;
 import Modelo.Proceso;
 import Vista.InOut;
@@ -11,6 +12,9 @@ public class Main {
      public static Proceso gestion = new Proceso();
      static InOut ioData = new InOut();
     public static void main(String[] args) {
+            Archivos.leerArchivoPersonas(gestion);
+            Archivos.leerArchivoMedicamentos(gestion);
+             gestion.verPersonas();
             gestion.menuInicio();
     }
     public static void menuMedicamentos(Personas obj_persona)
@@ -51,8 +55,7 @@ public class Main {
                     gestion.eliminarMedicamento(obj_persona);
                     break;
                 }
-                case 6:{
-                    System.exit(0);
+                case 6:{      
                     break;
                 }
                 default:{
