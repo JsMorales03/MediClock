@@ -6,11 +6,12 @@ import java.util.ArrayList;
 
 public class Medicamentos {
     
-    int id_medicamento;
-    String nombre_medicamento;
-    Double cantidad_medicamento;               //cantidad total                            //dosis (la cantidad que toma)
-    ArrayList<Horarios> horarios_medicamento = new ArrayList<>();
-
+    private int id_medicamento;
+    private String nombre_medicamento;
+    private Double cantidad_medicamento;               //cantidad total                            //dosis (la cantidad que toma)
+    private String unidad_medida;
+    private ArrayList<Horarios> horarios_medicamento = new ArrayList<>();
+ 
     public Medicamentos() {
     }
 
@@ -46,6 +47,14 @@ public class Medicamentos {
         this.cantidad_medicamento = cantidad_medicamento;
     }
 
+    public String getUnidad_medida() {
+        return unidad_medida;
+    }
+
+    public void setUnidad_medida(String unidad_medida) {
+        this.unidad_medida = unidad_medida;
+    }
+
     public ArrayList<Horarios> getHorarios_medicamento() {
         return horarios_medicamento;
     }
@@ -57,10 +66,12 @@ public class Medicamentos {
     {
         this.horarios_medicamento.add(horario);
     }
+    
+    
 
     @Override
     public String toString() {
-        String mensaje = "No. " + id_medicamento + " Nombre " + nombre_medicamento + " Cantidad " + cantidad_medicamento +"\n";
+        String mensaje = "No. " + id_medicamento + " Nombre: " + nombre_medicamento + " Cantidad: " + cantidad_medicamento +unidad_medida+"\n";
         for(Horarios hora: horarios_medicamento)
         {
            mensaje+= hora.toString();

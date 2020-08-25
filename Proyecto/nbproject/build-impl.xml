@@ -154,21 +154,6 @@ is divided into following sections:
                 <istrue value="${not.archive.disabled}"/>
             </or>
         </condition>
-<<<<<<< HEAD
-        <condition property="do.mkdist">
-            <and>
-                <isset property="do.archive"/>
-                <isset property="libs.CopyLibs.classpath"/>
-                <not>
-                    <istrue value="${mkdist.disabled}"/>
-                </not>
-                <not>
-                    <istrue value="${modules.supported.internal}"/>
-                </not>
-            </and>
-        </condition>
-=======
->>>>>>> 2cb246a030c01cc1ce864516b1f230dbdc22b499
         <condition property="do.archive+manifest.available">
             <and>
                 <isset property="manifest.available"/>
