@@ -313,15 +313,38 @@ public class Proceso {
        inOut.mostrarResultado(acumulador);
     }
    
+    public void avisoMed(){
+        if(personas.isEmpty()==false){
+            for(int i=0; i<personas.size(); i++){
+                if(personas.get(i).getLista_medicamentos().get(i).getCantidad_medicamento()<=5){
+                    inOut.mostrarResultado("ATENCION: Apenas quedan "
+                            +personas.get(i).getLista_medicamentos().get(i).getCantidad_medicamento()+" unidades del medicamento, "
+                            +personas.get(i).getLista_medicamentos().get(i).getNombre_medicamento());
+                }
+                else{
+                    if(personas.get(i).getLista_medicamentos().get(i).getCantidad_medicamento()==0){
+                        inOut.mostrarResultado("No hay del medicamento "
+                                +personas.get(i).getLista_medicamentos().get(i).getNombre_medicamento());
+                    }
+                }
+            }
+        }
+        else{
+            inOut.mostrarResultado("LISTA VACIA...");
+        }
+    }
+    
+    
     public void descontardosis(Horarios horario ,Medicamentos obj_medicamento,Personas obj_persona){
               
-                double opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida");
-                     while(obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento()<opcion ||opcion>horario.getDosis() ){
-                        opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida recuerde que este medicamento tiente "+obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento()+"Peso total del medicamento o  "+horario.getDosis()+"Cantidad de dosis");
-                         }  
-                     double nuevo=0;  
-                     nuevo=obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento();
-             obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).setCantidad_medicamento(nuevo-opcion);
+        double opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida");
+        while(obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento()<opcion ||opcion>horario.getDosis() ){
+            opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida recuerde que este medicamento tiente "+obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento()+"Peso total del medicamento o  "+horario.getDosis()+"Cantidad de dosis");
+        }  
+        double nuevo=0;  
+        nuevo=obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento();
+        obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).setCantidad_medicamento(nuevo-opcion);
+        avisoMed();
               
     }
 
