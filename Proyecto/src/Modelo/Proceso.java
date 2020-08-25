@@ -189,7 +189,7 @@ public class Proceso {
                    obj_horario.setDia(opcion);
                 }
                 obj_horario.setHora(inOut.solicitarNombre("Digite la hora en formato de 24h SIN dos puntos\nEjemplo: 14:30 -> 1430"));
-                while(!verificaciones.validarFormato(obj_horario.getHora(),obj_horario))
+                while(!verificaciones.validarFormato(obj_horario.getHora(),obj_horario)||verificaciones.validarHorario(obj_medicamento,obj_horario.getHora()))
                 {
                  obj_horario.setHora(inOut.solicitarNombre("FORMATO INCORRECTO\nDigite la hora en formato de 24h SIN dos puntos\nEjemplo: 14:30 -> 1430"));
                 }
@@ -294,8 +294,8 @@ public class Proceso {
     }
 
           
-    public void descontardosis(String Dia,String Hora,Medicamentos obj_medicamento,Personas obj_persona){
-        Horarios obj_horario = new Horarios();
+    public void descontardosis(Medicamentos obj_medicamento,Personas obj_persona){
+  
                 double opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida");
                      while(obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()).getCantidad_medicamento()<opcion){
                         opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida recuerde que este medicamento tiente "+obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()).getCantidad_medicamento());
@@ -356,6 +356,7 @@ public class Proceso {
                 System.out.println("Alarmaaa!"+ "Hora : "+ dateFormat.format(date));
                 DesktopNotify.showDesktopMessage("Notificación", "NO olvide tomar "+obHorario.getDosis()+ " "+obmedicamento.getUnidad_medida() 
                 +" de "+obmedicamento.getNombre_medicamento(), DesktopNotify.SUCCESS);
+                descontardosis(obmedicamento,obj_persona);
                 estado_mensaje=true;             
              }
          }
