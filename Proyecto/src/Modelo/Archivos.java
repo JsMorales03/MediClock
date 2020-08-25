@@ -25,7 +25,7 @@ public class Archivos {
 
     public static void crearArchivoPersonas(Proceso objproceso) {
              
-                ArrayList <Personas> personas = objproceso.getPersonas();
+                ArrayList <Personas> personas = objproceso.personas;
                
 		FileWriter flwriter = null;
 		try {
@@ -83,7 +83,7 @@ public class Archivos {
                                 e.setUsuario(delimitar.next());
 				e.setContrasena(delimitar.next());
                                 
-				objproceso.getPersonas().add(e);
+				objproceso.personas.add(e);
         
 			}
 			//se cierra el ojeto scanner
@@ -96,7 +96,7 @@ public class Archivos {
     
     public static void crearMedicamentos(Proceso objproceso) {
                 
-                ArrayList <Personas> personas = objproceso.getPersonas();
+                ArrayList <Personas> personas = objproceso.personas;
                 ArrayList <Medicamentos> medicamentos= new ArrayList<>();
                 ArrayList <Horarios> horarios= new ArrayList<>();
                 File f = new File("medicamentos.txt");
@@ -175,7 +175,7 @@ public class Archivos {
                                 medicamentos.setNombre_medicamento(delimitar.next());
                                medicamentos.setCantidad_medicamento(Double.parseDouble(delimitar.next()));
                                 medicamentos.setUnidad_medida(delimitar.next());
-                                horarios.setDia(delimitar.next());
+                                horarios.setDia(delimitar.nextInt());
                                 horarios.setHora(delimitar.next());
                               
                                
@@ -183,20 +183,20 @@ public class Archivos {
                                 
                                 medicamentos.setHorario(horarios);
                                 
-                                for(int i=0 ; i<objproceso.getPersonas().size();i++){                               //Recorre la lista de personas
-                                    if(objproceso.getPersonas().get(i).getUsuario().equals(e.getUsuario())){ //Si encuentra el usuario       
-                                        if(objproceso.getPersonas().get(i).getLista_medicamentos().isEmpty()) {
-                                            objproceso.getPersonas().get(i).getLista_medicamentos().add(medicamentos); 
+                                for(int i=0 ; i<objproceso.personas.size();i++){                               //Recorre la lista de personas
+                                    if(objproceso.personas.get(i).getUsuario().equals(e.getUsuario())){ //Si encuentra el usuario       
+                                        if(objproceso.personas.get(i).getLista_medicamentos().isEmpty()) {
+                                            objproceso.personas.get(i).getLista_medicamentos().add(medicamentos); 
                                         }  else{                                                 
-                                            for(int j=0; j<objproceso.getPersonas().get(i).getLista_medicamentos().size(); j++){        //Busca en la lista de medicamentos
-                                                if(objproceso.getPersonas().get(i).getLista_medicamentos().get(j).getId_medicamento() == medicamentos.getId_medicamento()){ //Si encuentra el medicamento
-                                                     objproceso.getPersonas().get(i).getLista_medicamentos().get(j).setHorario(horarios);                                   //Le añade el horario
+                                            for(int j=0; j<objproceso.personas.get(i).getLista_medicamentos().size(); j++){        //Busca en la lista de medicamentos
+                                                if(objproceso.personas.get(i).getLista_medicamentos().get(j).getId_medicamento() == medicamentos.getId_medicamento()){ //Si encuentra el medicamento
+                                                     objproceso.personas.get(i).getLista_medicamentos().get(j).setHorario(horarios);                                   //Le añade el horario
                                                      existe = true;
                                                      break;                                                                                                         //sale del bucle
                                                 }
                                             }
                                             if(existe == false){                                                                                        //Si no existe
-                                                  objproceso.getPersonas().get(i).getLista_medicamentos().add(medicamentos);                            //añade el medicamento junto con su primer horario
+                                                  objproceso.personas.get(i).getLista_medicamentos().add(medicamentos);                            //añade el medicamento junto con su primer horario
                                         }
                                        
                                     }

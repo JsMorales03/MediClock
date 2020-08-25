@@ -197,7 +197,6 @@ public class Proceso {
                 }
                 inOut.mostrarResultado("Hora seleccionada: "+ obj_horario.getHora());
 
-
                obj_horario.setDosis(inOut.solicitarDoubles("Cantidad ingeridad el día "+obj_horario.getDia()));
                while(obj_horario.getDosis()>obj_medicamento.getCantidad_medicamento()||obj_horario.getDosis()>7)
                {
@@ -312,12 +311,13 @@ public class Proceso {
             }
         }
        inOut.mostrarResultado(acumulador);
+    }
    
-    public void descontardosis(Medicamentos obj_medicamento,Personas obj_persona){
-  
+    public void descontardosis(Horarios horario ,Medicamentos obj_medicamento,Personas obj_persona){
+              
                 double opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida");
-                     while(obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento()<opcion){
-                        opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida recuerde que este medicamento tiente "+obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento());
+                     while(obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento()<opcion ||opcion>horario.getDosis() ){
+                        opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida recuerde que este medicamento tiente "+obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento()+"Peso total del medicamento o  "+horario.getDosis()+"Cantidad de dosis");
                          }  
                      double nuevo=0;  
                      nuevo=obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento();
@@ -375,12 +375,12 @@ public class Proceso {
                 System.out.println("Alarmaaa!"+ "Hora : "+ dateFormat.format(date));
                 DesktopNotify.showDesktopMessage("Notificación", "NO olvide tomar "+obHorario.getDosis()+ " "+obmedicamento.getUnidad_medida() 
                 +" de "+obmedicamento.getNombre_medicamento(), DesktopNotify.SUCCESS);
-                descontardosis(obmedicamento,obj_persona);
+                descontardosis(obHorario,obmedicamento,obj_persona);
                 estado_mensaje=true;             
              }
          }
          o.setVisible(false);
-         Main.menuMedicamentos(obj_persona);
+        
        }
     }
 
