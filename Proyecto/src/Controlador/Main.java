@@ -55,6 +55,7 @@ public class Main {
                 }
                 
                 case 6:{
+                    Proceso.estado=false;
                     gestion.iniciarRecordatorio(obj_persona);
                     break;
                 }

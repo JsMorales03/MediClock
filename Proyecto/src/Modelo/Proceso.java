@@ -195,9 +195,6 @@ public class Proceso {
                 }
                 inOut.mostrarResultado("Hora seleccionada: "+ obj_horario.getHora());
 
-                
-               obj_horario.setDosis(inOut.solicitarDoubles("Cantidad para ingerir el día "+obj_horario.getDia()));
-
                obj_horario.setDosis(inOut.solicitarDoubles("Cantidad ingeridad el día "+obj_horario.getDia()));
                while(obj_horario.getDosis()>obj_medicamento.getCantidad_medicamento()||obj_horario.getDosis()>7)
                {
@@ -363,7 +360,7 @@ public class Proceso {
              }
          }
          o.setVisible(false);
-         Main.menuMedicamentos(obj_persona);
+        
        }
     }
 
