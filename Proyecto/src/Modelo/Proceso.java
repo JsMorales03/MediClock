@@ -58,7 +58,7 @@ public class Proceso {
 
         for (int i = 0; i < obj_persona.getLista_medicamentos().size(); i++) {
             ArrayList<Horarios> lista = obj_persona.getLista_medicamentos().get(i).getHorarios_medicamento();
-            acumulador += (obj_persona.getLista_medicamentos().get(i).getId_medicamento() + ": " + obj_persona.getLista_medicamentos().get(i).getNombre_medicamento() + "\n");
+            acumulador += (obj_persona.getLista_medicamentos().get(i).getId_medicamento() + ": " + obj_persona.getLista_medicamentos().get(i).getNombre_medicamento() +" Cantidad "+obj_persona.getLista_medicamentos().get(i).getCantidad_medicamento()+ "\n");
             for(int j =0;j<lista.size();j++)
             {
                 acumulador+= ("    Día: "+seleccionarDias(lista.get(j).getDia())+ " Hora : "+ lista.get(j).getHora()+"\n");
@@ -198,8 +198,6 @@ public class Proceso {
                 }
                 inOut.mostrarResultado("Hora seleccionada: "+ obj_horario.getHora());
 
-                
-               obj_horario.setDosis(inOut.solicitarDoubles("Cantidad para ingerir el día "+obj_horario.getDia()));
 
                obj_horario.setDosis(inOut.solicitarDoubles("Cantidad ingeridad el día "+obj_horario.getDia()));
                while(obj_horario.getDosis()>obj_medicamento.getCantidad_medicamento()||obj_horario.getDosis()>7)
@@ -319,12 +317,12 @@ public class Proceso {
     public void descontardosis(Medicamentos obj_medicamento,Personas obj_persona){
   
                 double opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida");
-                     while(obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()).getCantidad_medicamento()<opcion){
-                        opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida recuerde que este medicamento tiente "+obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()).getCantidad_medicamento());
+                     while(obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento()<opcion){
+                        opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida recuerde que este medicamento tiente "+obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento());
                          }  
                      double nuevo=0;  
-                     nuevo=obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()).getCantidad_medicamento();
-             obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()).setCantidad_medicamento(nuevo-opcion);
+                     nuevo=obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento();
+             obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).setCantidad_medicamento(nuevo-opcion);
               
     }
 
