@@ -306,6 +306,7 @@ public class Proceso {
    
     public void iniciarRecordatorio(Personas obj_persona)
     {
+        
        if(!obj_persona.getLista_medicamentos().isEmpty())
        {
         DetenerRecordatorio o= new DetenerRecordatorio(); //formulario
