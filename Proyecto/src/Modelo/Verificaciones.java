@@ -63,7 +63,17 @@ public class Verificaciones {
         obj_horario.setHora(formatoDestino.format(fecha));
         return true;
     }
-    
+    public boolean validarHorario(Medicamentos obj_medicamento, String hora)
+    {
+        for(Horarios obmedicamento: obj_medicamento.getHorarios_medicamento())
+        {
+            if(obmedicamento.getHora().equals(hora))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     public boolean mirarID(int id, Personas persona) {
 
         for (int i = 0; i < persona.getLista_medicamentos().size(); i++) {
