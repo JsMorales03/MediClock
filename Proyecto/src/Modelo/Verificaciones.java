@@ -1,32 +1,37 @@
 
 package Modelo;
 
+import Controlador.Main;
+
 import Vista.InOut;
 import java.text.*;
 import java.util.*;
-import Controlador.Main;
+
 
 public class Verificaciones {
-    
+ 
     InOut inOut = new InOut();
     Proceso proceso = Main.gestion;
+
     Calendar day = Calendar.getInstance();
-    
      public int verificarUsuario(String usuario) {
 
-        for (int i = 0; i < proceso.personas.size(); i++) {
+         
+           for (int i = 0; i <Main.gestion.personas.size(); i++) {
+                 if (Main.gestion.personas.get(i).getUsuario().equals(usuario)) {
 
-            if (proceso.personas.get(i).getUsuario().equals(usuario)) {
                 return i;
             }
         }
         return -1;
-    }
-
+     }
+       
+    
     public boolean verificarContrasena(String contrasena, int posicion) {
 
-        if (proceso.personas.get(posicion).getContrasena().equals(contrasena)) {
-            return true;
+
+        if (Main.gestion.personas.get(posicion).getContrasena().equals(contrasena)) {
+           return true;
         } else {
             return false;
         }
@@ -97,6 +102,35 @@ public class Verificaciones {
 
     }
  
+     public Medicamentos validarAlarma(int dia_actual,Date hora,Personas obj_persona)
+    {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        
+        for(Medicamentos medicamentos:obj_persona.getLista_medicamentos())
+        {
+            for(Horarios hora_consumo: medicamentos.getHorarios_medicamento())
+            {
+                 if(hora_consumo.getDia()==dia_actual&&dateFormat.format(hora).equals(hora_consumo.getHora()))
+                 {
+                     return medicamentos;
+                 }
+            }
+        }
+       
+        return null;
+    }
+    public Horarios returnHorario(Medicamentos medicamentos,int dia_actual,Date hora)
+    {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+       for(Horarios hora_consumo: medicamentos.getHorarios_medicamento())
+            {
+                 if(hora_consumo.getDia()==dia_actual&&dateFormat.format(hora).equals(hora_consumo.getHora()))
+                 {
+                     return hora_consumo;
+                 }
+            }   
+       return null;
+    }
   
 
     

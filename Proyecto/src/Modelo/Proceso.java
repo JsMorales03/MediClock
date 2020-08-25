@@ -3,17 +3,19 @@ package Modelo;
 
 import Controlador.Main;
 import Vista.InOut;
+import ds.desktop.notify.DesktopNotify;
 import java.text.*;
 import java.util.*;
 import javax.swing.JOptionPane;
-import ds.desktop.notify.DesktopNotify;
+
+import Controlador.Main;
 public class Proceso {
     
     ArrayList<Personas> personas = new ArrayList();    
     public static  boolean estado=false;
-    InOut inOut = new InOut();
+    InOut inOut = new InOut();                                      // Solicitar datos
     Verificaciones verificaciones = new Verificaciones();           //Verificar datos
-      Calendar day = Calendar.getInstance();
+     Calendar day = Calendar.getInstance();
     public void insertarMedicamento(Personas obj_persona)     
     {
         Medicamentos obj_medicamento = new Medicamentos();
@@ -42,22 +44,25 @@ public class Proceso {
         }
     }
     
-     public String mostrarMedicamentos(Personas persona) {
+     public String mostrarMedicamentos(Personas obj_persona) {
 
         String acumulador = " ";
 
-        acumulador += ("Medicamentos:");
+        acumulador += ("Medicamentos:\n");
 
-        for (int i = 0; i < persona.getLista_medicamentos().size(); i++) {
-
-            acumulador += ((i + 1) + ": " + persona.getLista_medicamentos().get(i).getNombre_medicamento() + "\n");
-
+        for (int i = 0; i < obj_persona.getLista_medicamentos().size(); i++) {
+            ArrayList<Horarios> lista = obj_persona.getLista_medicamentos().get(i).getHorarios_medicamento();
+            acumulador += (obj_persona.getLista_medicamentos().get(i).getId_medicamento() + ": " + obj_persona.getLista_medicamentos().get(i).getNombre_medicamento() + "\n");
+            for(int j =0;j<lista.size();j++)
+            {
+                acumulador+= "    Día: "+seleccionarDias(lista.get(j).getDia())+ " Hora : "+ lista.get(j).getHora()+"\n";
+            }
+                  
           }
         return acumulador;
+
      }
-     
- 
-      
+
       public void modificarMedicamento(Personas persona) {
         
         String acumulador;
@@ -186,6 +191,13 @@ public class Proceso {
                 }
                 inOut.mostrarResultado("Hora seleccionada: "+ obj_horario.getHora());
                obj_horario.setDosis(inOut.solicitarDoubles("Cantidad ingeridad el día "+obj_horario.getDia()));
+               while(obj_horario.getDosis()>obj_medicamento.getCantidad_medicamento()||obj_horario.getDosis()>7)
+               {
+                  if(obj_horario.getDosis()>obj_medicamento.getCantidad_medicamento())
+                  obj_horario.setDosis(inOut.solicitarDoubles("NO puede exceder la cantidad disponible\nCantidad ingeridad el día "+obj_horario.getDia()));
+                  else
+                  obj_horario.setDosis(inOut.solicitarDoubles("NO puede excederse de 7 pastas\nCantidad ingeridad el día "+obj_horario.getDia()));
+               }
                obj_medicamento.setHorario(obj_horario);
             }
             while(JOptionPane.showConfirmDialog(null,"¿Desea registrar un nuevo recordatorio?","Seleccione una opcion",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION);
@@ -249,9 +261,11 @@ public class Proceso {
                 {
                     case 1:{
                        usuario = IniciarSesion();
+                       
                        if(usuario != null){
-                    
+                 
                            Main.menuMedicamentos(usuario);
+
                        }else{
                            inOut.mostrarResultado("USUARIO NO ENCONTRADO");
                        }
@@ -261,25 +275,27 @@ public class Proceso {
                         crearUsuario();
                         break;
                     }
+                    case 3:{
+                        break;
+                    }
                     default:{
                         inOut.mostrarResultado("Opción incorrecta");
                         break;
                     }
                 }  
-        } while(opc!=2); 
+        } while(opc!=3); 
 
     }
 
-     public void medicamentosDia(){
-        if(personas.isEmpty()==true){
+     public void medicamentosDia(Personas obj_persona){
+        if(obj_persona.getLista_medicamentos().isEmpty()==true){
             inOut.mostrarResultado("LISTA VACIA...");
         }
         else{
-                Calendar day = Calendar.getInstance();
-            int dia = day.get(Calendar.DAY_OF_MONTH);
+            int dia = day.get(Calendar.DAY_OF_WEEK);;
             String mostrar = " ";
-            for(int i=0; i<personas.size(); i++){
-                if(personas.get(i).getLista_medicamentos().get(i).getHorarios_medicamento().get(i).getDia()==dia){
+            for(int i=0; i<obj_persona.getLista_medicamentos().size(); i++){
+                if(obj_persona.getLista_medicamentos().get(i).getHorarios_medicamento().get(i).getDia()==dia){
                     mostrar+= ("MEDICAMENTOS DE HOY \n"+"Nombre Medicamento: "+personas.get(i).getLista_medicamentos().get(i).getNombre_medicamento()
                         +"  Cantidad: "+personas.get(i).getLista_medicamentos().get(i).getCantidad_medicamento());
                 }
@@ -298,41 +314,35 @@ public class Proceso {
          boolean estado_mensaje =false;
         
          o.setVisible(true);
-
+         Horarios anterior=null;
          while(!estado)
          {
             dia =  day.get(Calendar.DAY_OF_WEEK);
             Date date = new Date();  
-            if(estado_mensaje&&!validarAlarma(dia,date,obj_persona))
+            if(estado_mensaje&&verificaciones.validarAlarma(dia,date,obj_persona)==null)
             {
                 estado_mensaje = false;
             }
-             if(validarAlarma(dia,date,obj_persona)&&!estado_mensaje)
+            if(estado_mensaje&&verificaciones.validarAlarma(dia,date,obj_persona)!=null&&anterior!=verificaciones.returnHorario(verificaciones.validarAlarma(dia,date,obj_persona),dia,date))
+            {
+                estado_mensaje=false;
+            }
+             if(verificaciones.validarAlarma(dia,date,obj_persona)!=null&&!estado_mensaje)
              {
+                Medicamentos obmedicamento = verificaciones.validarAlarma(dia,date,obj_persona);
+                Horarios obHorario = verificaciones.returnHorario(obmedicamento,dia,date);
+                anterior = obHorario;
                 System.out.println("Alarmaaa!"+ "Hora : "+ dateFormat.format(date));
+                DesktopNotify.showDesktopMessage("Notificación", "NO olvide tomar "+obHorario.getDosis()+ " "+obmedicamento.getUnidad_medida() 
+                +" de "+obmedicamento.getNombre_medicamento(), DesktopNotify.SUCCESS);
                 estado_mensaje=true;             
              }
          }
          o.setVisible(false);
+         Main.menuMedicamentos(obj_persona);
        }
     }
-        public boolean validarAlarma(int dia_actual,Date hora,Personas obj_persona)
-    {
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        
-        for(Medicamentos medicamentos:obj_persona.getLista_medicamentos())
-        {
-            for(Horarios hora_consumo: medicamentos.getHorarios_medicamento())
-            {
-                 if(hora_consumo.getDia()==dia_actual&&dateFormat.format(hora).equals(hora_consumo.getHora()))
-                 {
-                     return true;
-                 }
-            }
-        }
-       
-        return false;
-    }
+
 
 }
 

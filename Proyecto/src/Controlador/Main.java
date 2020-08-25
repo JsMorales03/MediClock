@@ -9,6 +9,7 @@ public class Main {
     public static Proceso gestion = new Proceso();
      static InOut ioData = new InOut();
     public static void main(String[] args) {
+
            Personas obj_persona = new Personas();
            obj_persona.setNombre_persona("Paula");  
            
@@ -17,26 +18,30 @@ public class Main {
               obj_medicamento.setNombre_medicamento("Acetaminofen");
               Horarios obj_horario = new Horarios();
               obj_horario.setDia(2);
-              obj_horario.setHora("16:03");
+              obj_horario.setDosis(2.0);
+              obj_medicamento.setUnidad_medida("Unidades");
+              obj_horario.setHora("19:55");
               Horarios obj_horario2 = new Horarios();
               obj_horario2.setDia(2);
-              obj_horario2.setHora("16:09");
+              obj_horario2.setHora("19:56");
               obj_medicamento.setHorario(obj_horario);
               obj_medicamento.setHorario(obj_horario2);
-              gestion.menuInicio();
-              obj_persona.setMedicamento(obj_medicamento);
-            // gestion.iniciarRecordatorio(obj_persona);
-           //menuMedicamentos(obj_persona);
+             gestion.menuInicio();
+             // obj_persona.setMedicamento(obj_medicamento);
+              //gestion.iniciarRecordatorio(obj_persona);
+
     }
     public static void menuMedicamentos(Personas obj_persona)
     {
+        
         String menu= "Que bueno verte nuevamente "+obj_persona.getNombre();
                menu+="\n\n1.Insertar Medicamento"+
                       "\n2.Desplegar medicamentos"+
                       "\n3.Medicamentos del día "+
                       "\n4.Modificar medicamentos"+
                       "\n5.Eliminar medicamentos"+
-                      "\n6. Salir."; 
+                      "\n6.Iniciar recordatorio"+
+                      "\n7. Salir."; 
         int opcion;
         do
         {
@@ -44,16 +49,17 @@ public class Main {
             switch(opcion)
             {
 
-                case 1:{
+                case 1:
+                {      
                     gestion.insertarMedicamento(obj_persona);
                     break;
                    }
                 case 2:{
-                    gestion.mostrarMedicamentos(obj_persona);
+                    ioData.mostrarResultado(gestion.mostrarMedicamentos(obj_persona));
                     break;
                 }
                 case 3:{
-                       gestion.medicamentosDia();
+                       gestion.medicamentosDia(obj_persona);
                    break;
                 }
                 case 4:{
@@ -64,8 +70,12 @@ public class Main {
                     gestion.eliminarMedicamento(obj_persona);
                     break;
                 }
+                
                 case 6:{
-                    System.exit(0);
+                    gestion.iniciarRecordatorio(obj_persona);
+                    break;
+                }
+                case 7:{
                     break;
                 }
                 default:{
@@ -75,6 +85,6 @@ public class Main {
 
             }
         }
-        while(opcion!=6);
+        while(opcion!=7);
     }
 }
