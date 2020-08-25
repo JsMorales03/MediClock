@@ -1,40 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Modelo;
 
 import Controlador.Main;
 import Vista.InOut;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.text.*;
+import java.util.*;
+
 
 public class Verificaciones {
+
     
     InOut inOut = new InOut();
     Proceso proceso = Main.gestion;
     Calendar day = Calendar.getInstance();
-    
      public int verificarUsuario(String usuario) {
 
-        for (int i = 0; i <Main.gestion.getPersonas().size(); i++) {
+         
+           for (int i = 0; i <Main.gestion.personas.size(); i++) {
+                 if (Main.gestion.personas.get(i).getUsuario().equals(usuario)) {
 
-            if (Main.gestion.getPersonas().get(i).getUsuario().equals(usuario)) {
                 return i;
             }
         }
         return -1;
-    }
-
+     }
+       
+    
     public boolean verificarContrasena(String contrasena, int posicion) {
 
-        if (Main.gestion.getPersonas().get(posicion).getContrasena().equals(contrasena)) {
-            return true;
+
+        if (Main.gestion.personas.get(posicion).getContrasena().equals(contrasena)) {
+           return true;
         } else {
             return false;
         }
@@ -66,7 +62,17 @@ public class Verificaciones {
         obj_horario.setHora(formatoDestino.format(fecha));
         return true;
     }
-    
+    public boolean validarHorario(Medicamentos obj_medicamento, String hora)
+    {
+        for(Horarios obmedicamento: obj_medicamento.getHorarios_medicamento())
+        {
+            if(obmedicamento.getHora().equals(hora))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     public boolean mirarID(int id, Personas persona) {
 
         for (int i = 0; i < persona.getLista_medicamentos().size(); i++) {
@@ -92,6 +98,51 @@ public class Verificaciones {
             }
         }
     }
+    
+    public boolean verificarNombreMedicamento(String nombre, Personas persona) {
+
+        for (int i = 0; i < persona.getLista_medicamentos().size(); i++) {
+
+            if (persona.getLista_medicamentos().get(i).getNombre_medicamento().equals(nombre)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+ 
+     public Medicamentos validarAlarma(int dia_actual,Date hora,Personas obj_persona)
+    {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        
+        for(Medicamentos medicamentos:obj_persona.getLista_medicamentos())
+        {
+            for(Horarios hora_consumo: medicamentos.getHorarios_medicamento())
+            {
+                 if(hora_consumo.getDia()==dia_actual&&dateFormat.format(hora).equals(hora_consumo.getHora()))
+                 {
+                     return medicamentos;
+                 }
+            }
+        }
+       
+        return null;
+    }
+    public Horarios returnHorario(Medicamentos medicamentos,int dia_actual,Date hora)
+    {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+       for(Horarios hora_consumo: medicamentos.getHorarios_medicamento())
+            {
+                 if(hora_consumo.getDia()==dia_actual&&dateFormat.format(hora).equals(hora_consumo.getHora()))
+                 {
+                     return hora_consumo;
+                 }
+            }   
+       return null;
+    }
+  
+
+    
     
     
 }
