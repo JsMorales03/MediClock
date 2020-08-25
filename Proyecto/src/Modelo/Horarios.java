@@ -3,23 +3,23 @@ package Modelo;
 
 
 public class Horarios {
-    private String dia;
+    private int dia;
     private String hora;
     private Double dosis;
     public Horarios() {
     }
 
-    public Horarios(String dia, String hora,Double dosis) {
+    public Horarios(int  dia, String hora,Double dosis) {
         this.dia = dia;
         this.hora = hora;
         this.dosis = dosis;
     }
 
-    public String getDia() {
+    public int  getDia() {
         return dia;
     }
 
-    public void setDia(String dia) {
+    public void setDia(int dia) {
         this.dia = dia;
     }
 

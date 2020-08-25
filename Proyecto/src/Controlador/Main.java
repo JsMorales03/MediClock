@@ -1,8 +1,7 @@
 
 package Controlador;
 
-import Modelo.Personas;
-import Modelo.Proceso;
+import Modelo.*;
 import Vista.InOut;
 
 public class Main {
@@ -10,17 +9,22 @@ public class Main {
     public static Proceso gestion = new Proceso();
      static InOut ioData = new InOut();
     public static void main(String[] args) {
-            gestion.menuInicio();
+
+             gestion.menuInicio();
+ 
+
     }
     public static void menuMedicamentos(Personas obj_persona)
     {
+        
         String menu= "Que bueno verte nuevamente "+obj_persona.getNombre();
                menu+="\n\n1.Insertar Medicamento"+
                       "\n2.Desplegar medicamentos"+
                       "\n3.Medicamentos del día "+
                       "\n4.Modificar medicamentos"+
                       "\n5.Eliminar medicamentos"+
-                      "\n6. Salir."; 
+                      "\n6.Iniciar recordatorio"+
+                      "\n7. Salir."; 
         int opcion;
         do
         {
@@ -29,17 +33,16 @@ public class Main {
             {
 
                 case 1:
-                {
-                    
+                {      
                     gestion.insertarMedicamento(obj_persona);
                     break;
                    }
                 case 2:{
-                    gestion.mostrarMedicamentos(obj_persona);
+                    ioData.mostrarResultado(gestion.mostrarMedicamentos(obj_persona));
                     break;
                 }
                 case 3:{
-                       gestion.medicamentosDia();
+                       gestion.medicamentosDia(obj_persona);
                    break;
                 }
                 case 4:{
@@ -50,8 +53,12 @@ public class Main {
                     gestion.eliminarMedicamento(obj_persona);
                     break;
                 }
+                
                 case 6:{
-                    System.exit(0);
+                    gestion.iniciarRecordatorio(obj_persona);
+                    break;
+                }
+                case 7:{
                     break;
                 }
                 default:{
@@ -61,6 +68,6 @@ public class Main {
 
             }
         }
-        while(opcion!=6);
+        while(opcion!=7);
     }
 }
