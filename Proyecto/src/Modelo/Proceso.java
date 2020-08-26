@@ -1,13 +1,11 @@
 
 package Modelo;
 
-import Controlador.Main;
 import Vista.InOut;
 import ds.desktop.notify.DesktopNotify;
 import java.text.*;
 import java.util.*;
 import javax.swing.JOptionPane;
-import Controlador.Main;
 import static Controlador.Main.gestion;
 
 import Controlador.Main;
@@ -75,11 +73,13 @@ public class Proceso {
         int opc,numero = 0;
 
         do {
+
             opc = inOut.solicitarEntero("MENÚ MODIFICAR MEDICAMENTO. \n"
                     + "1. Cambiar nombre del medicamento \n"
                     + "2. Cambiar cantidad del medicamento \n"
                     + "3. Cambiar Horario\n"
                     + "4. Salir \n");
+
             switch (opc) {
                 case 1:
                     acumulador = mostrarMedicamentos(persona);
@@ -95,6 +95,7 @@ public class Proceso {
                     numero = verificaciones.returnPosicion(numero, persona);
                     cambiarCantidad(persona, numero);
                     break;
+
                 case 3:{
                     int opcion2 = inOut.solicitarEntero(mostrarHorarios(persona.getLista_medicamentos().get(numero))+"\n\nDigite una opción");
                    while(opcion2<=0||opcion2>persona.getLista_medicamentos().get(numero).getHorarios_medicamento().size()+1)
@@ -106,13 +107,14 @@ public class Proceso {
                    break;
                 }
                 case 4: break;
+
+
                 default:
                     inOut.mostrarResultado("OPCION NO VALIDA...");
             }
         } while (opc != 4);
 
     }
-      
 
       public void cambiarNombreMed(Personas persona, int posicion) {
 
@@ -142,7 +144,10 @@ public class Proceso {
        String acumulador;
        String menu = "ELIMINAR\n\n1.Eliminar medicamento \n2.Eliminar Horario\n3.Salir\n\nDigite una opción";
        int opcion = inOut.solicitarEntero(menu);
-       
+       while(opcion<=0||opcion>3)
+       {
+          opcion = inOut.solicitarEntero(menu);  
+       }
         acumulador = mostrarMedicamentos(persona);
         acumulador += ("\n\nDigite el número del medicamento que desea eliminar: ");
         numero = inOut.solicitarEntero(acumulador);
@@ -151,6 +156,7 @@ public class Proceso {
        {
            case 1:{            
                  persona.getLista_medicamentos().remove(numero);   
+                 inOut.mostrarResultado("Medicamento eliminado.");
                break;
            }
            case 2:{
@@ -160,6 +166,7 @@ public class Proceso {
                  opcion2 = inOut.solicitarEntero(mostrarHorarios(persona.getLista_medicamentos().get(numero))+"\n\nDigite una opción");  
                }
                persona.getLista_medicamentos().get(numero).getHorarios_medicamento().remove(opcion2-1);  
+                 inOut.mostrarResultado("Horario eliminado.");
                break;
            }
            case 3:{
@@ -170,8 +177,8 @@ public class Proceso {
                break;
            }
        }
+     
 
-        
     }
       
     public void crearUsuario(){
@@ -213,13 +220,13 @@ public class Proceso {
                 }
                 inOut.mostrarResultado("Hora seleccionada: "+ obj_horario.getHora());
 
-               obj_horario.setDosis(inOut.solicitarDoubles("Cantidad ingeridad el día "+obj_horario.getDia()));
+               obj_horario.setDosis(inOut.solicitarDoubles("Cantidad ingeridad el día "+seleccionarDias(obj_horario.getDia())));
                while(obj_horario.getDosis()>obj_medicamento.getCantidad_medicamento()||obj_horario.getDosis()>7)
                {
                   if(obj_horario.getDosis()>obj_medicamento.getCantidad_medicamento())
-                  obj_horario.setDosis(inOut.solicitarDoubles("NO puede exceder la cantidad disponible\nCantidad ingeridad el día "+obj_horario.getDia()));
+                  obj_horario.setDosis(inOut.solicitarDoubles("NO puede exceder la cantidad disponible\nCantidad ingeridad el día "+seleccionarDias(obj_horario.getDia())));
                   else
-                  obj_horario.setDosis(inOut.solicitarDoubles("NO puede excederse de 7 pastas\nCantidad ingeridad el día "+obj_horario.getDia()));
+                  obj_horario.setDosis(inOut.solicitarDoubles("NO puede excederse de 7 pastas\nCantidad ingeridad el día "+seleccionarDias(obj_horario.getDia())));
                }
 
                obj_medicamento.setHorario(obj_horario);
@@ -264,13 +271,13 @@ public class Proceso {
         if(verificaciones.verificarUsuario(usuario)!= -1){
             int pos= verificaciones.verificarUsuario(usuario);
              String contraseña=inOut.solicitarNombre("Ingrese la contraseña: ");
-                 while(verificaciones.verificarContrasena(contraseña,pos)== false){
-                     contraseña=inOut.solicitarNombre("Ingrese la contraseña: ");
+                 if(verificaciones.verificarContrasena(contraseña,pos)== false){
+                     contraseña=inOut.solicitarNombre("Contraseña incorrecta. \nIngrese la contraseña: ");
+                 }else{
+                    return personas.get(pos); 
                  }
-            return personas.get(pos);
-        }else{
-            return null;
         }
+        return null;
     }
     
     public void menuInicio(){
@@ -279,7 +286,8 @@ public class Proceso {
         Personas usuario;
         do{
             String mensaje= "1.Iniciar Sesion \n"
-                      +     "2.Registrar Cuenta \n";
+                      +     "2.Registrar Cuenta \n"
+                      +     "3.Salir \n";
             opc=inOut.solicitarEntero(mensaje);
               switch(opc)
                 {
@@ -287,9 +295,7 @@ public class Proceso {
                        usuario = IniciarSesion();
                        
                        if(usuario != null){
-                 
-                           Main.menuMedicamentos(usuario);
-
+                               Main.menuMedicamentos(usuario);
                        }else{
                            inOut.mostrarResultado("USUARIO NO ENCONTRADO");
                        }
@@ -339,15 +345,38 @@ public class Proceso {
        inOut.mostrarResultado(acumulador);
     }
    
+    public void avisoMed(){
+        if(personas.isEmpty()==false){
+            for(int i=0; i<personas.size(); i++){
+                if(personas.get(i).getLista_medicamentos().get(i).getCantidad_medicamento()<=5){
+                    inOut.mostrarResultado("ATENCION: Apenas quedan "
+                            +personas.get(i).getLista_medicamentos().get(i).getCantidad_medicamento()+" unidades del medicamento, "
+                            +personas.get(i).getLista_medicamentos().get(i).getNombre_medicamento());
+                }
+                else{
+                    if(personas.get(i).getLista_medicamentos().get(i).getCantidad_medicamento()==0){
+                        inOut.mostrarResultado("No hay del medicamento "
+                                +personas.get(i).getLista_medicamentos().get(i).getNombre_medicamento());
+                    }
+                }
+            }
+        }
+        else{
+            inOut.mostrarResultado("LISTA VACIA...");
+        }
+    }
+    
+    
     public void descontardosis(Horarios horario ,Medicamentos obj_medicamento,Personas obj_persona){
               
-                double opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida");
-                     while(obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento()<opcion ||opcion>horario.getDosis() ){
-                        opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida recuerde que este medicamento tiente "+obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento()+"Peso total del medicamento o  "+horario.getDosis()+"Cantidad de dosis");
-                         }  
-                     double nuevo=0;  
-                     nuevo=obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento();
-             obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).setCantidad_medicamento(nuevo-opcion);
+        double opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida");
+        while(obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento()<opcion ||opcion>horario.getDosis() ){
+            opcion= inOut.solicitarDoubles("\n\nDigite la dosis ingerida recuerde que este medicamento tiente "+obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento()+"Peso total del medicamento o  "+horario.getDosis()+"Cantidad de dosis");
+        }  
+        double nuevo=0;  
+        nuevo=obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento();
+        obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).setCantidad_medicamento(nuevo-opcion);
+        avisoMed();
               
     }
 
@@ -358,13 +387,21 @@ public class Proceso {
         }
         else{
             int dia = day.get(Calendar.DAY_OF_WEEK);;
-            String mostrar = " ";
+            String mostrar = "MEDICAMENTOS DE HOY ";
             for(int i=0; i<obj_persona.getLista_medicamentos().size(); i++){
+                boolean existe = false;
+                ArrayList<Horarios> horarios = obj_persona.getLista_medicamentos().get(i).getHorarios_medicamento();
+                for(int j=0; j<horarios.size();j++){
+                    if(horarios.get(j).getDia()==dia){
+                        if(existe == false){
+                              mostrar+= ("\n"+"Nombre Medicamento: "+obj_persona.getLista_medicamentos().get(i).getNombre_medicamento());
+                              existe = true;
+                        }
+                    mostrar+= (" \nHora: "+horarios.get(j).getHora()+"      Dosis: "+horarios.get(j).getDosis());
+                    }
 
-                if(obj_persona.getLista_medicamentos().get(i).getHorarios_medicamento().get(i).getDia()==dia){
-                    mostrar+= ("MEDICAMENTOS DE HOY \n"+"Nombre Medicamento: "+personas.get(i).getLista_medicamentos().get(i).getNombre_medicamento()
-                        +"  Cantidad: "+personas.get(i).getLista_medicamentos().get(i).getCantidad_medicamento());
                 }
+                
             }
             inOut.mostrarResultado(mostrar);
         }

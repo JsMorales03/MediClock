@@ -43,7 +43,11 @@ public class Main {
                     break;
                    }
                 case 2:{
+                     if(!obj_persona.getLista_medicamentos().isEmpty()){
                     ioData.mostrarResultado(gestion.mostrarMedicamentos(obj_persona));
+                     } else{
+                         ioData.mostrarResultado("No hay medicamentos registrados.");
+                     }
                     break;
                 }
                 case 3:{
