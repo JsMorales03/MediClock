@@ -1,2 +1,1 @@
-paula,paula123,123
 Joan,js123,1234

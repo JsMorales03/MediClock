@@ -29,7 +29,8 @@ public class Main {
                       "\n4.Modificar medicamentos"+
                       "\n5.Eliminar medicamentos"+
                       "\n6.Iniciar recordatorio"+
-                      "\n7. Salir."; 
+                      "\n7.Medicamentos a vencer"+ 
+                      "\n8. Salir."; 
         int opcion;
         do
         {
@@ -68,7 +69,14 @@ public class Main {
                     break;
                 }
                 case 7:{
-
+                    if(!obj_persona.getLista_medicamentos().isEmpty()){
+                        ioData.mostrarResultado(gestion.traerMedicamentosaVencer(obj_persona));
+                     } else{
+                         ioData.mostrarResultado("No hay medicamentos registrados.");
+                     }
+                    break;
+                }
+                case 8:{
                     break;
                 }
                 default:{
@@ -78,6 +86,6 @@ public class Main {
 
             }
         }
-        while(opcion!=7);
+        while(opcion!=8);
     }
 }

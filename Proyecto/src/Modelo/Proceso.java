@@ -10,7 +10,7 @@ import static Controlador.Main.gestion;
 
 import Controlador.Main;
 public class Proceso {
-
+    
     public ArrayList<Personas> personas = new ArrayList();
      Calendar day = Calendar.getInstance();                         //Las fechas
 
@@ -117,6 +117,7 @@ public class Proceso {
                 Main.menuMedicamentos(obj_persona);
             }
             else{
+                obj_medicamento.setFecha_vencimiento(fecha);
                 asignarHorario(obj_medicamento,obj_persona);
                 obj_persona.setMedicamento(obj_medicamento);
             }
@@ -453,7 +454,7 @@ public class Proceso {
         nuevo=obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).getCantidad_medicamento();
         obj_persona.getLista_medicamentos().get(obj_medicamento.getId_medicamento()-1).setCantidad_medicamento(nuevo-opcion);
         avisoMed();
-              
+            
     }
 
 
@@ -482,7 +483,23 @@ public class Proceso {
             inOut.mostrarResultado(mostrar);
         }
     }
-   
+     
+    public String traerMedicamentosaVencer(Personas obj_persona)
+    {
+        String mensaje = "";
+        
+        for(int i=0; i<obj_persona.getLista_medicamentos().size(); i++)
+         {
+             mensaje += "Nombre: " + obj_persona.getLista_medicamentos().get(i).getNombre_medicamento() 
+                     +  "Fecha de caducidad: " + obj_persona.getLista_medicamentos().get(i).getFecha_vencimiento().getDate()
+                     +  "/" + obj_persona.getLista_medicamentos().get(i).getFecha_vencimiento().getMonth() + "/"
+                     +  obj_persona.getLista_medicamentos().get(i).getFecha_vencimiento().getYear() + "\n";
+        }
+        
+        return mensaje;
+    }
+     
+     
     public void iniciarRecordatorio(Personas obj_persona)
     {
         
