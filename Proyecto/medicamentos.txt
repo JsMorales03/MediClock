@@ -1,1 +1,7 @@
 paula123,1,acetaminofen,3.0,pastillas,2,20:30,2.0
+js123,1,Loratadina,20.0,gr,1,11:40,2.0
+js123,2,Acetaminofen,12.0,gr,2,12:45,1.0
+js123,3,meta,12.0,gr,1,21:45,1.0
+js123,4,sda,12.0,gr,7,21:12,1.0
+js123,5,js,12.0,gr,4,12:45,1.0
+js123,6,mk,15.0,gr,5,12:45,1.0

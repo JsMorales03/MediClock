@@ -20,8 +20,63 @@ public class Proceso {
     InOut inOut = new InOut();                                      // Solicitar datos
     Verificaciones verificaciones = new Verificaciones();           //Verificar datos
     
+    public boolean veri(double x)
+    {
+        return x<=24;
+    }
+    
+    public boolean vencimiento(Date fecha)
+    {
+        Date fecha1 = new Date();
+        if(fecha.getYear()==fecha1.getYear())
+        {
+            if(fecha.getMonth()==fecha1.getMonth())
+            {
+                if(fecha.getDate()==fecha1.getDate())
+                {
+                    inOut.mostrarResultado("El medicamento esta vencido por lo tanto no se tendra en cuenta");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public boolean verificarDia(int x)
+    {
+        return x>0 && x<=31;
+    }
+
+    public boolean verificarMes(int x)
+    {
+        return x>0 && x<12;
+    }
+
+    public boolean verficarAño(int x)
+    {
+        return x>=2020 && x<=2022;
+    }
+    
+    public int datoAño(int x)
+    {
+        if(x==2020)
+        {
+            x = 120;
+        }
+        else if(x==2021)
+        {
+            x = 121;
+        }
+        else if(x==2022)
+        {
+            x = 122;
+        }
+        return x;
+    }
+    
     public void insertarMedicamento(Personas obj_persona)     
     {
+        int año,mes,dia;
         Medicamentos obj_medicamento = new Medicamentos();
         obj_medicamento.setId_medicamento(obj_persona.getLista_medicamentos().size()+1);
         obj_medicamento.setNombre_medicamento(inOut.solicitarNombre("Digite el nombre del medicamento"));
@@ -40,11 +95,32 @@ public class Proceso {
             {
               obj_medicamento.setCantidad_medicamento(inOut.solicitarDoubles("Digite el contenido neto del producto")); 
             }
-
             obj_medicamento.setUnidad_medida(inOut.solicitarNombre("Digite la unidad de medida"));
+            mes = inOut.solicitarEntero("Ingrese el mes de vencimiento del medicamento: ");
+            while(verificarMes(mes)==false)
+            {
+                mes = inOut.solicitarEntero("Ingrese un mes");
+            }
+            dia = inOut.solicitarEntero("Ingrese el dia de vencimiento del medicamento: ");
+            while(verificarDia(dia)==false)
+            {
+                dia = inOut.solicitarEntero("Ingrese un dia entre 1 y 31");
+            }
+            año = inOut.solicitarEntero("Ingrese el año de vencimiento del medicamento: ");
+            while(verficarAño(año)==false)
+            {
+                año = inOut.solicitarEntero("Ingrese un año correcto");
+            }
+            Date fecha = new Date(datoAño(año),mes,dia);
+            if(vencimiento(fecha)==true)
+            {
+                Main.menuMedicamentos(obj_persona);
+            }
+            else{
+                asignarHorario(obj_medicamento,obj_persona);
+                obj_persona.setMedicamento(obj_medicamento);
+            }
             
-            asignarHorario(obj_medicamento,obj_persona);
-            obj_persona.setMedicamento(obj_medicamento);
         }
     }
     
