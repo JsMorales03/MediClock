@@ -72,36 +72,39 @@ public class Proceso {
       public void modificarMedicamento(Personas persona) {
         
         String acumulador;
-        int opc, medicamento,numero;
+        int opc,numero = 0;
 
         do {
-            opc = inOut.solicitarEntero("MENU MODIFICAR MEDICAMENTO. \n"
-                    + "1. Cambiar id del medicamento \n"
-                    + "2. Cambiar nombre del medicamento \n"
-                    + "3. Cambiar cantidad del medicamento \n"
+            opc = inOut.solicitarEntero("MENÚ MODIFICAR MEDICAMENTO. \n"
+                    + "1. Cambiar nombre del medicamento \n"
+                    + "2. Cambiar cantidad del medicamento \n"
+                    + "3. Cambiar Horario\n"
                     + "4. Salir \n");
             switch (opc) {
                 case 1:
-                    acumulador = mostrarMedicamentos(persona);
-                    acumulador += ("\n\nDigite el número del medicamento que desea modificar su ID: ");
-                    numero = inOut.solicitarEntero(acumulador);
-                    numero = verificaciones.returnPosicion(numero, persona);
-                    modificarId(persona, numero);
-                    break;
-                case 2:
                     acumulador = mostrarMedicamentos(persona);
                     acumulador += ("\n\nDigite el número del medicamento que desea modificar su nombre: ");
                     numero = inOut.solicitarEntero(acumulador);
                     numero = verificaciones.returnPosicion(numero, persona);
                     cambiarNombreMed(persona, numero);
                     break;
-                case 3:
+                case 2:
                     acumulador = mostrarMedicamentos(persona);
                     acumulador += ("\n\nDigite el número del medicamento que desea modificar su cantidad: ");
                     numero = inOut.solicitarEntero(acumulador);
                     numero = verificaciones.returnPosicion(numero, persona);
                     cambiarCantidad(persona, numero);
                     break;
+                case 3:{
+                    int opcion2 = inOut.solicitarEntero(mostrarHorarios(persona.getLista_medicamentos().get(numero))+"\n\nDigite una opción");
+                   while(opcion2<=0||opcion2>persona.getLista_medicamentos().get(numero).getHorarios_medicamento().size()+1)
+                   {
+                     opcion2 = inOut.solicitarEntero(mostrarHorarios(persona.getLista_medicamentos().get(numero))+"\n\nDigite una opción");  
+                   }
+                   persona.getLista_medicamentos().get(numero).getHorarios_medicamento().remove(opcion2-1);  
+                   asignarHorario( persona.getLista_medicamentos().get(numero),persona);
+                   break;
+                }
                 case 4: break;
                 default:
                     inOut.mostrarResultado("OPCION NO VALIDA...");
@@ -110,19 +113,7 @@ public class Proceso {
 
     }
       
-      public void modificarId(Personas persona, int posicion) {
 
-        int id = inOut.solicitarEntero("Digite el nuevo ID del medicamento.");
-        while (verificaciones.mirarID(id, persona) == true || verificaciones.verificarEnterosPos(id) == false ) {
-            if(verificaciones.mirarID(id, persona) == true )
-            id = inOut.solicitarEntero("El ID del medicamento ya existe. \nDigite el ID del medicamento.");
-            else
-            id = inOut.solicitarEntero("El ID del medicamento no puede ser negativo. \nDigite el ID del medicamento.");    
-        }
-
-        persona.getLista_medicamentos().get(posicion).setId_medicamento(id);
-    }
-      
       public void cambiarNombreMed(Personas persona, int posicion) {
 
         String nombre = inOut.solicitarNombre("Digite el nuevo nombre del medicamento.");
@@ -149,13 +140,38 @@ public class Proceso {
           
        int numero;   
        String acumulador;
+       String menu = "ELIMINAR\n\n1.Eliminar medicamento \n2.Eliminar Horario\n3.Salir\n\nDigite una opción";
+       int opcion = inOut.solicitarEntero(menu);
        
         acumulador = mostrarMedicamentos(persona);
         acumulador += ("\n\nDigite el número del medicamento que desea eliminar: ");
         numero = inOut.solicitarEntero(acumulador);
         numero = verificaciones.returnPosicion(numero, persona);
-       persona.getLista_medicamentos().remove(numero);   
+       switch(opcion)
+       {
+           case 1:{            
+                 persona.getLista_medicamentos().remove(numero);   
+               break;
+           }
+           case 2:{
+               int opcion2 = inOut.solicitarEntero(mostrarHorarios(persona.getLista_medicamentos().get(numero))+"\n\nDigite una opción");
+               while(opcion2<=0||opcion2>persona.getLista_medicamentos().get(numero).getHorarios_medicamento().size()+1)
+               {
+                 opcion2 = inOut.solicitarEntero(mostrarHorarios(persona.getLista_medicamentos().get(numero))+"\n\nDigite una opción");  
+               }
+               persona.getLista_medicamentos().get(numero).getHorarios_medicamento().remove(opcion2-1);  
+               break;
+           }
+           case 3:{
+               break;
+           }
+           default:{
+               inOut.mostrarResultado("Opción Incorrecta");
+               break;
+           }
+       }
 
+        
     }
       
     public void crearUsuario(){
@@ -296,7 +312,17 @@ public class Proceso {
         } while(opc!=3); 
 
     }
-
+    public String mostrarHorarios(Medicamentos obj_medicamento)
+    {
+        String mensaje="";
+        int id=0;
+        for(Horarios horario: obj_medicamento.getHorarios_medicamento())
+        {
+            ++id;
+            mensaje+= id+" Día: "+seleccionarDias(horario.getDia())+ " Hora: "+horario.getHora()+"\n";
+        }
+        return mensaje;
+    }
     public void verPersonas(){
         String acumulador ="";
         for(int i=0; i<personas.size(); i++){
@@ -334,6 +360,7 @@ public class Proceso {
             int dia = day.get(Calendar.DAY_OF_WEEK);;
             String mostrar = " ";
             for(int i=0; i<obj_persona.getLista_medicamentos().size(); i++){
+
                 if(obj_persona.getLista_medicamentos().get(i).getHorarios_medicamento().get(i).getDia()==dia){
                     mostrar+= ("MEDICAMENTOS DE HOY \n"+"Nombre Medicamento: "+personas.get(i).getLista_medicamentos().get(i).getNombre_medicamento()
                         +"  Cantidad: "+personas.get(i).getLista_medicamentos().get(i).getCantidad_medicamento());

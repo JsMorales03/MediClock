@@ -13,9 +13,10 @@ public class Main {
      public static Proceso gestion = new Proceso();
      static InOut ioData = new InOut();
     public static void main(String[] args) {
-            Archivos.leerArchivoPersonas(gestion);
-            Archivos.leerArchivoMedicamentos(gestion);
-             gestion.menuInicio();
+          Archivos.leerArchivoPersonas(gestion);
+          Archivos.leerArchivoMedicamentos(gestion);
+           gestion.menuInicio();
+
 
     }
     public static void menuMedicamentos(Personas obj_persona)

@@ -1,8 +1,1 @@
-jessica123,1,Ibuprofeno,46.5,gr,Lunes,12:34,2.0
-jessica123,1,Ibuprofeno,23.7,gr,Martes,12:32,6.0
-jessica123,1,Ibuprofeno,5.3,gr,Miercoles,02:14,7.0
-jessica123,2,Mareol,15.4,litros,Jueves,09:12,3.0
-jessica123,2,Mareol,12.5,litros,Sábado,04:15,6.0
-joan123,1,Pastillitas,67.4,gr,Lunes,12:55,4.0
-joan123,1,Pastillitas,23.0,gr,Viernes,09:55,2.0
-joan123,2,Litritos,32.5,litros,Martes,23:55,5.0
+paula123,1,acetaminofen,3.0,unidades,3,20:30,3.0

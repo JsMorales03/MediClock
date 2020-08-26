@@ -177,8 +177,6 @@ public class Archivos {
                                 medicamentos.setUnidad_medida(delimitar.next());
                                 horarios.setDia(delimitar.nextInt());
                                 horarios.setHora(delimitar.next());
-                              
-                               
                                 horarios.setDosis(Double.parseDouble(delimitar.next()));
                                 
                                 medicamentos.setHorario(horarios);
