@@ -76,53 +76,32 @@ public class Proceso {
 
         do {
             opc = inOut.solicitarEntero("MENU MODIFICAR MEDICAMENTO. \n"
-                    + "1. Cambiar id del medicamento \n"
-                    + "2. Cambiar nombre del medicamento \n"
-                    + "3. Cambiar cantidad del medicamento \n"
-                    + "4. Salir \n");
+                    + "1. Cambiar nombre del medicamento \n"
+                    + "2. Cambiar cantidad del medicamento\n"
+                    + "3. Salir \n");
             switch (opc) {
                 case 1:
-                    acumulador = mostrarMedicamentos(persona);
-                    acumulador += ("\n\nDigite el número del medicamento que desea modificar su ID: ");
-                    numero = inOut.solicitarEntero(acumulador);
-                    numero = verificaciones.returnPosicion(numero, persona);
-                    modificarId(persona, numero);
-                    break;
-                case 2:
                     acumulador = mostrarMedicamentos(persona);
                     acumulador += ("\n\nDigite el número del medicamento que desea modificar su nombre: ");
                     numero = inOut.solicitarEntero(acumulador);
                     numero = verificaciones.returnPosicion(numero, persona);
                     cambiarNombreMed(persona, numero);
                     break;
-                case 3:
+                case 2:
                     acumulador = mostrarMedicamentos(persona);
                     acumulador += ("\n\nDigite el número del medicamento que desea modificar su cantidad: ");
                     numero = inOut.solicitarEntero(acumulador);
                     numero = verificaciones.returnPosicion(numero, persona);
                     cambiarCantidad(persona, numero);
                     break;
-                case 4: break;
+                case 3: break;
+              
                 default:
                     inOut.mostrarResultado("OPCION NO VALIDA...");
             }
-        } while (opc != 4);
+        } while (opc != 3);
 
     }
-      
-      public void modificarId(Personas persona, int posicion) {
-
-        int id = inOut.solicitarEntero("Digite el nuevo ID del medicamento.");
-        while (verificaciones.mirarID(id, persona) == true || verificaciones.verificarEnterosPos(id) == false ) {
-            if(verificaciones.mirarID(id, persona) == true )
-            id = inOut.solicitarEntero("El ID del medicamento ya existe. \nDigite el ID del medicamento.");
-            else
-            id = inOut.solicitarEntero("El ID del medicamento no puede ser negativo. \nDigite el ID del medicamento.");    
-        }
-
-        persona.getLista_medicamentos().get(posicion).setId_medicamento(id);
-    }
-      
       public void cambiarNombreMed(Personas persona, int posicion) {
 
         String nombre = inOut.solicitarNombre("Digite el nuevo nombre del medicamento.");
