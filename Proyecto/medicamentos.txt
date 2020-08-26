@@ -1,8 +1,7 @@
-jessica123,1,Ibuprofeno,46.5,gr,Lunes,12:34,2.0
-jessica123,1,Ibuprofeno,23.7,gr,Martes,12:32,6.0
-jessica123,1,Ibuprofeno,5.3,gr,Miercoles,02:14,7.0
-jessica123,2,Mareol,15.4,litros,Jueves,09:12,3.0
-jessica123,2,Mareol,12.5,litros,Sábado,04:15,6.0
-joan123,1,Pastillitas,67.4,gr,Lunes,12:55,4.0
-joan123,1,Pastillitas,23.0,gr,Viernes,09:55,2.0
-joan123,2,Litritos,32.5,litros,Martes,23:55,5.0
+jess,2,Mareol,34.0,mililitros,4,11:35,4.0
+jess,2,Mareol,34.0,mililitros,5,12:30,5.0
+paula,1,Nose,56.0,gramos,4,08:35,4.0
+paula,1,Nose,56.0,gramos,6,18:56,2.0
+paula,2,Nosex2,31.0,mililitros,3,09:21,6.0
+paula,2,Nosex2,31.0,mililitros,3,21:23,4.0
+paula,3,Mreolx2,42.0,nose,3,21:24,5.0

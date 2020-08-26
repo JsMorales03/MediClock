@@ -1,13 +1,11 @@
 
 package Modelo;
 
-import Controlador.Main;
 import Vista.InOut;
 import ds.desktop.notify.DesktopNotify;
 import java.text.*;
 import java.util.*;
 import javax.swing.JOptionPane;
-import Controlador.Main;
 import static Controlador.Main.gestion;
 
 import Controlador.Main;
@@ -134,7 +132,7 @@ public class Proceso {
         numero = inOut.solicitarEntero(acumulador);
         numero = verificaciones.returnPosicion(numero, persona);
        persona.getLista_medicamentos().remove(numero);   
-
+       inOut.mostrarResultado("Medicamento eliminado.");
     }
       
     public void crearUsuario(){
@@ -227,13 +225,13 @@ public class Proceso {
         if(verificaciones.verificarUsuario(usuario)!= -1){
             int pos= verificaciones.verificarUsuario(usuario);
              String contraseña=inOut.solicitarNombre("Ingrese la contraseña: ");
-                 while(verificaciones.verificarContrasena(contraseña,pos)== false){
-                     contraseña=inOut.solicitarNombre("Ingrese la contraseña: ");
+                 if(verificaciones.verificarContrasena(contraseña,pos)== false){
+                     contraseña=inOut.solicitarNombre("Contraseña incorrecta. \nIngrese la contraseña: ");
+                 }else{
+                    return personas.get(pos); 
                  }
-            return personas.get(pos);
-        }else{
-            return null;
         }
+        return null;
     }
     
     public void menuInicio(){
@@ -242,7 +240,8 @@ public class Proceso {
         Personas usuario;
         do{
             String mensaje= "1.Iniciar Sesion \n"
-                      +     "2.Registrar Cuenta \n";
+                      +     "2.Registrar Cuenta \n"
+                      +     "3.Salir \n";
             opc=inOut.solicitarEntero(mensaje);
               switch(opc)
                 {
@@ -250,9 +249,7 @@ public class Proceso {
                        usuario = IniciarSesion();
                        
                        if(usuario != null){
-                 
-                           Main.menuMedicamentos(usuario);
-
+                               Main.menuMedicamentos(usuario);
                        }else{
                            inOut.mostrarResultado("USUARIO NO ENCONTRADO");
                        }
@@ -337,8 +334,8 @@ public class Proceso {
             String mostrar = " ";
             for(int i=0; i<obj_persona.getLista_medicamentos().size(); i++){
                 if(obj_persona.getLista_medicamentos().get(i).getHorarios_medicamento().get(i).getDia()==dia){
-                    mostrar+= ("MEDICAMENTOS DE HOY \n"+"Nombre Medicamento: "+personas.get(i).getLista_medicamentos().get(i).getNombre_medicamento()
-                        +"  Cantidad: "+personas.get(i).getLista_medicamentos().get(i).getCantidad_medicamento());
+                    mostrar+= ("MEDICAMENTOS DE HOY \n"+"Nombre Medicamento: "+obj_persona.getLista_medicamentos().get(i).getNombre_medicamento()
+                        +"  Cantidad: "+obj_persona.getLista_medicamentos().get(i).getCantidad_medicamento());
                 }
             }
             inOut.mostrarResultado(mostrar);
