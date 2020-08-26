@@ -331,12 +331,20 @@ public class Proceso {
         }
         else{
             int dia = day.get(Calendar.DAY_OF_WEEK);;
-            String mostrar = " ";
+            String mostrar = "MEDICAMENTOS DE HOY ";
             for(int i=0; i<obj_persona.getLista_medicamentos().size(); i++){
-                if(obj_persona.getLista_medicamentos().get(i).getHorarios_medicamento().get(i).getDia()==dia){
-                    mostrar+= ("MEDICAMENTOS DE HOY \n"+"Nombre Medicamento: "+obj_persona.getLista_medicamentos().get(i).getNombre_medicamento()
-                        +"  Cantidad: "+obj_persona.getLista_medicamentos().get(i).getCantidad_medicamento());
+                boolean existe = false;
+                ArrayList<Horarios> horarios = obj_persona.getLista_medicamentos().get(i).getHorarios_medicamento();
+                for(int j=0; j<horarios.size();j++){
+                    if(horarios.get(j).getDia()==dia){
+                        if(existe == false){
+                              mostrar+= ("\n"+"Nombre Medicamento: "+obj_persona.getLista_medicamentos().get(i).getNombre_medicamento());
+                              existe = true;
+                        }
+                    mostrar+= (" \nHora: "+horarios.get(j).getHora()+"      Dosis: "+horarios.get(j).getDosis());
+                    }
                 }
+                
             }
             inOut.mostrarResultado(mostrar);
         }

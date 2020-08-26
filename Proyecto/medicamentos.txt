@@ -1,5 +1,8 @@
 jess,2,Mareol,34.0,mililitros,4,11:35,4.0
 jess,2,Mareol,34.0,mililitros,5,12:30,5.0
+jess,2,Mareol,34.0,mililitros,3,21:35,3.0
+jess,2,holi,9.0,gr,3,12:34,4.0
+jess,2,holi,9.0,gr,3,22:58,5.0
 paula,1,Nose,56.0,gramos,4,08:35,4.0
 paula,1,Nose,56.0,gramos,6,18:56,2.0
 paula,2,Nosex2,31.0,mililitros,3,09:21,6.0
