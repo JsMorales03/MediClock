@@ -28,11 +28,11 @@ public class Proceso {
     public boolean vencimiento(Date fecha)
     {
         Date fecha1 = new Date();
-        if(fecha.getYear()==fecha1.getYear())
+        if(fecha.getYear()<=fecha1.getYear())
         {
-            if(fecha.getMonth()==fecha1.getMonth())
+            if(fecha.getMonth()<=fecha1.getMonth())
             {
-                if(fecha.getDate()==fecha1.getDate())
+                if(fecha.getDate()<=fecha1.getDate())
                 {
                     inOut.mostrarResultado("El medicamento esta vencido por lo tanto no se tendra en cuenta");
                     return true;
@@ -42,6 +42,7 @@ public class Proceso {
         return false;
     }
     
+    
     public boolean verificarDia(int x)
     {
         return x>0 && x<=31;
@@ -49,7 +50,7 @@ public class Proceso {
 
     public boolean verificarMes(int x)
     {
-        return x>0 && x<12;
+        return x>0 && x<=12;
     }
 
     public boolean verficarAño(int x)
@@ -111,7 +112,7 @@ public class Proceso {
             {
                 año = inOut.solicitarEntero("Ingrese un año correcto");
             }
-            Date fecha = new Date(datoAño(año),mes,dia);
+            Date fecha = new Date(datoAño(año),(mes-1),dia);
             if(vencimiento(fecha)==true)
             {
                 Main.menuMedicamentos(obj_persona);
@@ -550,12 +551,10 @@ public class Proceso {
             {
                 DesktopNotify.showDesktopMessage("¡Urgente!", "El medicamento " + p.getLista_medicamentos().get(i).getNombre_medicamento() 
                         + " está vencido, por cuestiones de su salud sera removido de la lista de medicamentos");
-            }
                 p.getLista_medicamentos().remove(i);
             }
+        }
     }
-    
-    
 }
 
 
