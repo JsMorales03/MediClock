@@ -8,8 +8,6 @@ import Modelo.*;
 import Vista.InOut;
 
 public class Main {
-
-
      public static Proceso gestion = new Proceso();
      static InOut ioData = new InOut();
     public static void main(String[] args) {

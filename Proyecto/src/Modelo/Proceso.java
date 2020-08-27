@@ -25,24 +25,28 @@ public class Proceso {
         Medicamentos obj_medicamento = new Medicamentos();
         obj_medicamento.setId_medicamento(obj_persona.getLista_medicamentos().size()+1);
         obj_medicamento.setNombre_medicamento(inOut.solicitarNombre("Digite el nombre del medicamento"));
-        if(verificaciones.validarExistenciaMedicamento(obj_persona.getLista_medicamentos(),obj_medicamento.getNombre_medicamento()))
+        while(verificaciones.validarExistenciaMedicamento(obj_persona.getLista_medicamentos(),obj_medicamento.getNombre_medicamento())&&JOptionPane.showConfirmDialog(null,"El medicamento ingresado ya se encuentra registrado \n¿Desea continuar con el proceso?","Seleccione una opción", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
         {
-            while(verificaciones.validarExistenciaMedicamento(obj_persona.getLista_medicamentos(),obj_medicamento.getNombre_medicamento())&&JOptionPane.showConfirmDialog(null,"El medicamento ingresado ya se encuentra registrado \n¿Desea continuar con el proceso?","Seleccione una opción", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)
-            {
-                obj_medicamento.setNombre_medicamento(inOut.solicitarNombre("El medicamento registrado ya se encuentra registrado\nDigite el nombre del medicamento")); 
-            }
-            
+           obj_medicamento.setNombre_medicamento(inOut.solicitarNombre("El medicamento registrado ya se encuentra registrado\nDigite el nombre del medicamento")); 
         }
+        while(!verificaciones.validarEspacio(obj_medicamento.getNombre_medicamento()))
+        {
+           obj_medicamento.setNombre_medicamento(inOut.solicitarNombre("Debe insertar un dato\nDigite el nombre del medicamento"));        
+        }
+          
         if(!verificaciones.validarExistenciaMedicamento(obj_persona.getLista_medicamentos(),obj_medicamento.getNombre_medicamento()))
         {
             obj_medicamento.setCantidad_medicamento(inOut.solicitarDoubles("Digite el contenido neto del producto"));
-            while(obj_medicamento.getCantidad_medicamento()<=0)
+            while(obj_medicamento.getCantidad_medicamento()<=0||obj_medicamento.getCantidad_medicamento()>10000)
             {
               obj_medicamento.setCantidad_medicamento(inOut.solicitarDoubles("Digite el contenido neto del producto")); 
             }
 
             obj_medicamento.setUnidad_medida(inOut.solicitarNombre("Digite la unidad de medida"));
-            
+            while(!verificaciones.validarEspacio(obj_medicamento.getUnidad_medida()))
+            {
+               obj_medicamento.setUnidad_medida(inOut.solicitarNombre("Debe insertar un dato\nDigite la unidad de medida"));  
+            }
             asignarHorario(obj_medicamento,obj_persona);
             obj_persona.setMedicamento(obj_medicamento);
         }
@@ -119,9 +123,11 @@ public class Proceso {
       public void cambiarNombreMed(Personas persona, int posicion) {
 
         String nombre = inOut.solicitarNombre("Digite el nuevo nombre del medicamento.");
-
-        while (verificaciones.verificarNombreMedicamento(nombre, persona)) {
+        while (verificaciones.verificarNombreMedicamento(nombre, persona)||!verificaciones.validarEspacio(nombre)) {
+            if(verificaciones.verificarNombreMedicamento(nombre, persona))
             nombre = inOut.solicitarNombre("El nombre del medicamento ya existe. \nDigite el nombre del medicamento.");
+            else
+            nombre = inOut.solicitarNombre("Debe digitar un dato\nDigite el nombre del medicamento.");
         }
         persona.getLista_medicamentos().get(posicion).setNombre_medicamento(nombre);
 
@@ -151,6 +157,10 @@ public class Proceso {
         acumulador = mostrarMedicamentos(persona);
         acumulador += ("\n\nDigite el número del medicamento que desea eliminar: ");
         numero = inOut.solicitarEntero(acumulador);
+        while(numero<=0||numero>persona.getLista_medicamentos().size()+1)
+        {
+           numero = inOut.solicitarEntero(acumulador);  
+        }
         numero = verificaciones.returnPosicion(numero, persona);
        switch(opcion)
        {
@@ -165,7 +175,7 @@ public class Proceso {
                {
                  opcion2 = inOut.solicitarEntero(mostrarHorarios(persona.getLista_medicamentos().get(numero))+"\n\nDigite una opción");  
                }
-               persona.getLista_medicamentos().get(numero).getHorarios_medicamento().remove(opcion2-1);  
+                 persona.getLista_medicamentos().get(numero).getHorarios_medicamento().remove(opcion2-1);  
                  inOut.mostrarResultado("Horario eliminado.");
                break;
            }
@@ -383,10 +393,10 @@ public class Proceso {
 
      public void medicamentosDia(Personas obj_persona){
         if(obj_persona.getLista_medicamentos().isEmpty()==true){
-            inOut.mostrarResultado("LISTA VACIA...");
+            inOut.mostrarResultado("LISTA VACÍA...");
         }
         else{
-            int dia = day.get(Calendar.DAY_OF_WEEK);;
+            int dia = day.get(Calendar.DAY_OF_WEEK);
             String mostrar = "MEDICAMENTOS DE HOY ";
             for(int i=0; i<obj_persona.getLista_medicamentos().size(); i++){
                 boolean existe = false;
@@ -400,9 +410,10 @@ public class Proceso {
                     mostrar+= (" \nHora: "+horarios.get(j).getHora()+"      Dosis: "+horarios.get(j).getDosis());
                     }
 
-                }
-                
-            }
+                    }
+                } 
+            
+
             inOut.mostrarResultado(mostrar);
         }
     }

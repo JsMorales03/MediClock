@@ -13,6 +13,11 @@ public class Verificaciones {
     InOut inOut = new InOut();
     Proceso proceso = Main.gestion;
     Calendar day = Calendar.getInstance();
+    public boolean validarEspacio(String cadena)
+    {
+        StringTokenizer toke = new StringTokenizer(cadena);        
+        return toke.countTokens()>=1;
+    }
      public int verificarUsuario(String usuario) {
 
          
