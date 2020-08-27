@@ -71,7 +71,7 @@ public class Main {
                 case 7:{
                     if(!obj_persona.getLista_medicamentos().isEmpty()){
                         ioData.mostrarResultado(gestion.traerMedicamentosaVencer(obj_persona));
-                     } else{
+                    } else{
                          ioData.mostrarResultado("No hay medicamentos registrados.");
                      }
                     break;

@@ -1,1 +1,2 @@
-js123,1,Loratadina,12.0,gr,4,13:02,1.0
+js123,1,Loratadina,12.0,gr,5,12:45,1.0
+js123,2,saddsf,15.0,gr,5,15:45,2.0

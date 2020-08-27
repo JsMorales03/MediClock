@@ -36,7 +36,7 @@ public class Proceso {
                 {
                     inOut.mostrarResultado("El medicamento esta vencido por lo tanto no se tendra en cuenta");
                     return true;
-                }
+                }      
             }
         }
         return false;
@@ -487,19 +487,19 @@ public class Proceso {
     public String traerMedicamentosaVencer(Personas obj_persona)
     {
         String mensaje = "";
-        
         for(int i=0; i<obj_persona.getLista_medicamentos().size(); i++)
-         {
-             mensaje += "Nombre: " + obj_persona.getLista_medicamentos().get(i).getNombre_medicamento() 
-                     +  "Fecha de caducidad: " + obj_persona.getLista_medicamentos().get(i).getFecha_vencimiento().getDate()
-                     +  "/" + obj_persona.getLista_medicamentos().get(i).getFecha_vencimiento().getMonth() + "/"
-                     +  obj_persona.getLista_medicamentos().get(i).getFecha_vencimiento().getYear() + "\n";
+        {
+            if(verificaciones.verificacionFecha(obj_persona.getLista_medicamentos().get(i).getFecha_vencimiento())<=7)
+            {
+                mensaje += "Medicamento: " + obj_persona.getLista_medicamentos().get(i).getNombre_medicamento() 
+                        + " caducara en " + verificaciones.verificacionFecha(obj_persona.getLista_medicamentos().get(i).getFecha_vencimiento())
+                        + " días.\n";
+            }
         }
-        
         return mensaje;
     }
      
-     
+    
     public void iniciarRecordatorio(Personas obj_persona)
     {
         
@@ -533,14 +533,29 @@ public class Proceso {
                 DesktopNotify.showDesktopMessage("Notificación", "NO olvide tomar "+obHorario.getDosis()+ " "+obmedicamento.getUnidad_medida() 
                 +" de "+obmedicamento.getNombre_medicamento(), DesktopNotify.SUCCESS);
                 descontardosis(obHorario,obmedicamento,obj_persona);
+                notificacionVencimiento(obj_persona);
                 estado_mensaje=true;             
              }
          }
          o.setVisible(false);
-        
        }
+       
     }
-
+    
+    public void notificacionVencimiento(Personas p)
+    {
+        for(int i=0; i<p.getLista_medicamentos().size();i++)
+        {
+            if(verificaciones.fechaIgual(p.getLista_medicamentos().get(i).getFecha_vencimiento())== true)
+            {
+                DesktopNotify.showDesktopMessage("¡Urgente!", "El medicamento " + p.getLista_medicamentos().get(i).getNombre_medicamento() 
+                        + " está vencido, por cuestiones de su salud sera removido de la lista de medicamentos");
+            }
+                p.getLista_medicamentos().remove(i);
+            }
+    }
+    
+    
 }
 
 
