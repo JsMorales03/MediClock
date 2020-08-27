@@ -146,8 +146,30 @@ public class Verificaciones {
        return null;
     }
   
-
+    public boolean fechaIgual(Date fecha)
+    {
+        Date fecha1 = new Date();
+        if(fecha.getYear()==fecha1.getYear())
+        {
+            if(fecha.getMonth()==fecha1.getMonth())
+            {
+                if(fecha.getDate()==fecha1.getDate())
+                {
+                    inOut.mostrarResultado("El medicamento esta vencido por lo tanto se eliminara de la lista por su salud");
+                    return true;
+                }      
+            }
+        }
+        return false;
+    }
     
+    
+    public int verificacionFecha(Date fecha)
+    {
+        Date fecha1 = new Date();
+        int dias=(int) ((fecha.getTime()-fecha1.getTime())/86400000);
+        return dias;
+    }
     
     
 }

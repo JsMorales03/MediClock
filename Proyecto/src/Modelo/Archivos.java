@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Archivos {
@@ -112,7 +113,8 @@ public class Archivos {
                     for(int j=0;j<medicamentos.size();j++){                                                             //Recorre lista de medicamentos
                          horarios = personas.get(i).getLista_medicamentos().get(j).getHorarios_medicamento();
                         for(int k=0; k<horarios.size() ; k++){                                                         //Recorre la lista de horarios
-                              bfwriter.write(personas.get(i).getUsuario()+","+medicamentos.get(j).getId_medicamento()+","+medicamentos.get(j).getNombre_medicamento()+","+medicamentos.get(j).getCantidad_medicamento()+","+medicamentos.get(j).getUnidad_medida()+",");
+                              bfwriter.write(personas.get(i).getUsuario()+","+medicamentos.get(j).getId_medicamento()+","+medicamentos.get(j).getNombre_medicamento()+","+medicamentos.get(j).getCantidad_medicamento()+","+medicamentos.get(j).getUnidad_medida()+","
+                                            + medicamentos.get(j).getFecha_vencimiento().getDate() + "," + medicamentos.get(j).getFecha_vencimiento().getMonth() + "," + medicamentos.get(j).getFecha_vencimiento().getYear() + ",");
                             if(i==personas.size()-1){
                                     if(j==medicamentos.size()-1){
                                         if(k==horarios.size()-1){
@@ -169,17 +171,22 @@ public class Archivos {
 				Personas e= new Personas();
                                 Medicamentos medicamentos = new Medicamentos();
                                 Horarios horarios = new Horarios();
+                                Date fecha = new Date();
                             
 				e.setUsuario(delimitar.next());
                                 medicamentos.setId_medicamento(delimitar.nextInt());
                                 medicamentos.setNombre_medicamento(delimitar.next());
                                medicamentos.setCantidad_medicamento(Double.parseDouble(delimitar.next()));
                                 medicamentos.setUnidad_medida(delimitar.next());
+                                fecha.setDate(delimitar.nextInt());
+                                fecha.setMonth(delimitar.nextInt());
+                                fecha.setYear(delimitar.nextInt());
                                 horarios.setDia(delimitar.nextInt());
                                 horarios.setHora(delimitar.next());
                                 horarios.setDosis(Double.parseDouble(delimitar.next()));
                                 
                                 medicamentos.setHorario(horarios);
+                                medicamentos.setFecha_vencimiento(fecha);
                                 
                                 for(int i=0 ; i<objproceso.personas.size();i++){                               //Recorre la lista de personas
                                     if(objproceso.personas.get(i).getUsuario().equals(e.getUsuario())){ //Si encuentra el usuario       
