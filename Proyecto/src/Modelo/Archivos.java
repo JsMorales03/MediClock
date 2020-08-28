@@ -69,7 +69,7 @@ public class Archivos {
 			//se pasa el flujo al objeto scanner
                         
 			scanner = new Scanner(file);
-			while (scanner.hasNextLine()) {
+			while (scanner.hasNextLine()) {     //Mientras haya una siguiente linea
 
 				// el objeto scanner lee linea a linea desde el archivo
 
@@ -158,7 +158,7 @@ public class Archivos {
 			//se pasa el flujo al objeto scanner
                         boolean si = false ;
 			scanner = new Scanner(file);
-			while (scanner.hasNextLine()) {
+			while (scanner.hasNextLine()) {     //Mientras haya líneas
                                 si = false;
 				// el objeto scanner lee linea a linea desde el archivo
                                 boolean existe = false;
@@ -167,7 +167,7 @@ public class Archivos {
 
                                 delimitar.useDelimiter("\\s*,\\s*");
                                 
-                                int cedula;
+                              
 				Personas e= new Personas();
                                 Medicamentos medicamentos = new Medicamentos();
                                 Horarios horarios = new Horarios();

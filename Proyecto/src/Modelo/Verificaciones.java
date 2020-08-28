@@ -5,14 +5,65 @@ import Controlador.Main;
 import Vista.InOut;
 import java.text.*;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 
 public class Verificaciones {
 
     
     InOut inOut = new InOut();
-    Proceso proceso = Main.gestion;
     Calendar day = Calendar.getInstance();
+    
+    public boolean vencimiento(Date fecha)
+    {
+        Date fecha1 = new Date();               //Fecha actual
+        if(fecha.getYear()<=fecha1.getYear() || fecha.getMonth()<=fecha1.getMonth() ||fecha.getDate()<=fecha1.getDate()  )
+        {
+                    inOut.mostrarResultado("El medicamento esta vencido por lo tanto no se tendra en cuenta");
+                    return true;
+                
+        }
+        return false;
+    }
+    
+    
+    public boolean verificarDia(int x)
+    {
+        return x>0 && x<=31;
+    }
+
+    public boolean verificarMes(int x)
+    {
+        return x>0 && x<=12;
+    }
+
+    public boolean verficarAño(int x)
+    {
+        return x>=2020 && x<=2022;
+    }
+    
+    public int datoAño(int x)
+    {
+        if(x==2020)
+        {
+            x = 120;
+        }
+        else if(x==2021)
+        {
+            x = 121;
+        }
+        else if(x==2022)
+        {
+            x = 122;
+        }
+        return x;
+    }
+    
+    public boolean validarEspacio(String cadena)
+    {
+        StringTokenizer toke = new StringTokenizer(cadena);        
+        return toke.countTokens()>=1;
+    }
      public int verificarUsuario(String usuario) {
 
          
@@ -49,18 +100,25 @@ public class Verificaciones {
         }
         return false;
     }
-    public boolean validarFormato(String horario,Horarios obj_horario) 
-    {
-        DateFormat formatoOrigen = new SimpleDateFormat("HHmm");
-        DateFormat formatoDestino = new SimpleDateFormat("HH:mm");
-        Date fecha;
-        try {
-            fecha = formatoOrigen.parse(horario);
-        } catch (ParseException ex) {
-            return false;
-        }
-        obj_horario.setHora(formatoDestino.format(fecha));
-        return true;
+ 
+     public boolean validarFormato(String m) { 
+            try {
+                String[] horaMinutos = m.split(":");         //Divide la hora en partes :
+                if(horaMinutos.length > 1) {                        //Al menos un ":"
+                    int hora = Integer.valueOf(horaMinutos[0]);   //Obtiene la parte de hora
+                    int minutos = Integer.valueOf(horaMinutos[1]);          //Obtiene la parte de minutos
+                    if((hora<0 || hora>24) ||  (minutos<0 || minutos>60) ){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                } else{
+                    return false;
+                }
+            } catch (NumberFormatException ex) {
+                return false;//Entra aquí si hay error convirtiendo de String a número
+            }
+        
     }
     public boolean validarHorario(Medicamentos obj_medicamento, String hora)
     {
@@ -103,7 +161,7 @@ public class Verificaciones {
 
         for (int i = 0; i < persona.getLista_medicamentos().size(); i++) {
 
-            if (persona.getLista_medicamentos().get(i).getNombre_medicamento().equals(nombre)) {
+            if (persona.getLista_medicamentos().get(i).getNombre_medicamento().equalsIgnoreCase(nombre)) {
                 return true;
             }
         }
@@ -113,11 +171,11 @@ public class Verificaciones {
  
      public Medicamentos validarAlarma(int dia_actual,Date hora,Personas obj_persona)
     {
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");     // Darle formato a la hora del pc
         
         for(Medicamentos medicamentos:obj_persona.getLista_medicamentos())
         {
-            for(Horarios hora_consumo: medicamentos.getHorarios_medicamento())
+            for(Horarios hora_consumo: medicamentos.getHorarios_medicamento())  // Horarios 
             {
                  if(hora_consumo.getDia()==dia_actual&&dateFormat.format(hora).equals(hora_consumo.getHora()))
                  {
@@ -135,15 +193,15 @@ public class Verificaciones {
             {
                  if(hora_consumo.getDia()==dia_actual&&dateFormat.format(hora).equals(hora_consumo.getHora()))
                  {
-                     return hora_consumo;
+                     return hora_consumo;       //Retorna el horario
                  }
             }   
        return null;
     }
   
-    public boolean fechaIgual(Date fecha)
+    public boolean fechaIgual(Date fecha)       //La que está registrada
     {
-        Date fecha1 = new Date();
+        Date fecha1 = new Date();               //Fecha del pc
         if(fecha.getYear()==fecha1.getYear())
         {
             if(fecha.getMonth()==fecha1.getMonth())
@@ -161,8 +219,8 @@ public class Verificaciones {
     
     public int verificacionFecha(Date fecha)
     {
-        Date fecha1 = new Date();
-        int dias=(int) ((fecha.getTime()-fecha1.getTime())/86400000);
+        Date fecha1 = new Date();        //Fecha del pc
+        int dias=(int) ((fecha.getTime()-fecha1.getTime())/86400000);   //Cantidad de días entre dos fechas
         return dias;
     }
     
